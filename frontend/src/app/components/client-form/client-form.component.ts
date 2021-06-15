@@ -1,4 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Client } from 'src/app/models/client.model';
+import { ClientService } from 'src/app/services/client.service';
 
 @Component({
   selector: 'app-client-form',
@@ -8,12 +10,23 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 export class ClientFormComponent implements OnInit {
 
   @Output("close") closeClientForm: EventEmitter<boolean> = new EventEmitter<boolean>();
-
   @Output("add") addClientForm: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  constructor() { }
+  public client: Client;
+
+  constructor(
+    private clientService: ClientService
+  ) { }
 
   ngOnInit(): void {
+    this.client = {
+      name: '',
+      email: '',
+      birth: null,
+      city: '',
+      country: '',
+      mother: ''
+    }
   }
 
   closeForm(): void {
@@ -22,6 +35,17 @@ export class ClientFormComponent implements OnInit {
 
   addForm(): void {
     this.addClientForm.emit()
+  }
+
+  showClient(): void {
+
+    const isValidClient = this.clientService.validateClient(this.client);
+    if (true) {
+      this.clientService.insert(this.client);
+    }
+    else
+      console.error("Invalid Client entity")
+
   }
 
 }

@@ -26,12 +26,10 @@
             If you wish to proceed, click on the Create button below.
         </p>
     </mat-card-content>
+
     <mat-card-actions class="action-buttons">
         <button mat-raised-button color="primary" (click)="openClientForm()">Create</button>
     </mat-card-actions>
 
-    <div *ngIf="showClientForm">
-        <h1>Enter Your Data</h1>
-        <app-client-form (close)="closeClientForm($event)" (add)="addClientForm($event)"></app-client-form>
-    </div>
+    <app-client-form *ngIf="showClientForm" (close)="closeClientForm($event)" (add)="addClientForm($event)"></app-client-form>
 </mat-card>

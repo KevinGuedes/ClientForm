@@ -1,4 +1,17 @@
+.customer-form {
+    display: flex;
+    flex-direction: column;
+}
+
 .action-buttons {
     display: flex;
     justify-content: flex-end;
+}
+
+button+button {
+    margin: 0 0 0 16px;
+}
+
+::ng-deep .mat-input-element {
+    color: #424242 !important;
 }

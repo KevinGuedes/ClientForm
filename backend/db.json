@@ -1,11 +1,28 @@
 {
-    "customers": [
-        {
-            "id": 1,
-            "name": "Kevin Santos Guedes",
-            "city": "Fortaleza",
-            "country": "Brazil",
-            "email": "kevinguedes@edu.unifor.br"
-        }
-    ]
+  "clients": [
+    {
+      "id": 1,
+      "name": "Kevin Santos Guedes",
+      "city": "Fortaleza",
+      "country": "Brazil",
+      "email": "kevinguedes@edu.unifor.br",
+      "mother": "Creusa Santos"
+    },
+    {
+      "name": "Kariny Bárbara",
+      "city": "Sobral",
+      "country": "Brazil",
+      "email": "kariny@gmail.com",
+      "id": 2
+    },
+    {
+      "name": "Kariny Bárbara",
+      "city": "Sobral",
+      "country": "Brazil",
+      "email": "kariny@gmail.com",
+      "mother": "creusa",
+      "birth": "Thu Jun 17 2021 00:00:00 GMT-0300 (Horário Padrão de Brasília)",
+      "id": 3
+    }
+  ]
 }

@@ -12,21 +12,13 @@ export class ClientFormComponent implements OnInit {
   @Output("close") closeClientForm: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output("add") addClientForm: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  public client: Client;
+  public client: Client = new Client();
 
   constructor(
     private clientService: ClientService
   ) { }
 
   ngOnInit(): void {
-    this.client = {
-      name: '',
-      email: '',
-      birth: null,
-      city: '',
-      country: '',
-      mother: ''
-    }
   }
 
   closeForm(): void {

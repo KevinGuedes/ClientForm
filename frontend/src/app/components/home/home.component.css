@@ -4,6 +4,15 @@
 }
 
 .action-buttons {
+    padding-top: 0.9rem;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
+}
+
+.content {
+    padding-top: 0.8rem;
+}
+
+button {
+    height: 35px;
 }

@@ -1,21 +1,6 @@
 {
   "clients": [
     {
-      "id": 1,
-      "name": "Kevin Santos Guedes",
-      "city": "Fortaleza",
-      "country": "Brazil",
-      "email": "kevinguedes@edu.unifor.br",
-      "mother": "Creusa Santos"
-    },
-    {
-      "name": "Kariny Bárbara",
-      "city": "Sobral",
-      "country": "Brazil",
-      "email": "kariny@gmail.com",
-      "id": 2
-    },
-    {
       "name": "Kariny Bárbara",
       "city": "Sobral",
       "country": "Brazil",

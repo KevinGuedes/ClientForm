@@ -1,46 +1,50 @@
-<form class="customer-form">
-    <mat-form-field>
-        <mat-label>Name</mat-label>
-        <input matInput placeholder="Name" [(ngModel)]="client.name" name="name" required>
-    </mat-form-field>
+<section class="form-section">
 
-    <mat-form-field>
-        <mat-label>Mother Name</mat-label>
-        <input matInput placeholder="Mother Name" [(ngModel)]="client.mother" name="mother" required>
-    </mat-form-field>
+    <h1 class="form-title">New Client Form</h1>
 
-    <mat-form-field>
-        <mat-label>Email</mat-label>
-        <input matInput placeholder="Email" [(ngModel)]="client.email" name="email" required>
-    </mat-form-field>
+    <form class="customer-form">
+        <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input matInput placeholder="Name" [(ngModel)]="client.name" name="name" required>
+        </mat-form-field>
+    
+        <mat-form-field>
+            <mat-label>Mother Name</mat-label>
+            <input matInput placeholder="Mother Name" [(ngModel)]="client.mother" name="mother" required>
+        </mat-form-field>
+    
+        <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="Email" [(ngModel)]="client.email" name="email" required>
+        </mat-form-field>
+    
+        <mat-form-field>
+            <mat-label>Country</mat-label>
+            <input matInput placeholder="Country" [(ngModel)]="client.country" name="country" required>
+        </mat-form-field>
+    
+        <mat-form-field>
+            <mat-label>City</mat-label>
+            <input matInput placeholder="Email" [(ngModel)]="client.city" name="city" required autocomplete="false">
+        </mat-form-field>
+    
+        <mat-form-field appearance="fill" class="example-form-field">
+            <mat-label>Birth Date</mat-label>
+            <input matInput [matDatepicker]="datepicker" [(ngModel)]="client.birth" name="birth" required
+                autocomplete="false">
+            <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+            <mat-datepicker #datepicker>
+                <mat-datepicker-actions>
+                    <button mat-button matDatepickerCancel>Cancel</button>
+                    <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+                </mat-datepicker-actions>
+            </mat-datepicker>
+        </mat-form-field>
+    </form>
 
-    <mat-form-field>
-        <mat-label>Country</mat-label>
-        <input matInput placeholder="Country" [(ngModel)]="client.country" name="country" required>
-    </mat-form-field>
-
-    <mat-form-field>
-        <mat-label>City</mat-label>
-        <input matInput placeholder="Email" [(ngModel)]="client.city" name="city" required autocomplete="false">
-    </mat-form-field>
-  
-    <mat-form-field appearance="fill" class="example-form-field">
-        <mat-label>Birth Date</mat-label>
-        <input matInput [matDatepicker]="datepicker" [(ngModel)]="client.birth" name="birth" required autocomplete="false">
-        <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
-        <mat-datepicker #datepicker>
-            <mat-datepicker-actions>
-                <button mat-button matDatepickerCancel>Cancel</button>
-                <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
-            </mat-datepicker-actions>
-        </mat-datepicker>
-    </mat-form-field>
-
-</form>
-
-
-<mat-card-actions class="action-buttons">
-    <button mat-raised-button color="primary" (click)="addForm()">Add Client</button>
-    <button mat-raised-button color="primary" (click)="closeForm()">Cancel</button>
-    <button mat-raised-button color="primary" (click)="showClient()">Submit</button>
-</mat-card-actions>
+    <mat-card-actions class="action-buttons">
+        <!-- <button mat-raised-button color="primary" (click)="addForm()">Add Client</button> -->
+        <button mat-raised-button color="secondary" (click)="closeForm()">Cancel</button>
+        <button mat-raised-button color="primary" (click)="showClient()">Submit</button>
+    </mat-card-actions>
+</section>

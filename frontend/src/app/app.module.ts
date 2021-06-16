@@ -17,6 +17,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete'
+import { MatDividerModule } from '@angular/material/divider';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,6 +39,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete'
     MatDatepickerModule,
     MatNativeDateModule,
     MatAutocompleteModule,
+    MatDividerModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

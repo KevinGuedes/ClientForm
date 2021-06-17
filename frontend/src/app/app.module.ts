@@ -19,12 +19,15 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete'
 import { MatDividerModule } from '@angular/material/divider';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FooterComponent } from './components/footer/footer.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     ClientFormComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,6 +45,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatAutocompleteModule,
     MatDividerModule,
     ReactiveFormsModule,
+    MatToolbarModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

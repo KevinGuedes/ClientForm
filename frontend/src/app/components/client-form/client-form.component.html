@@ -67,9 +67,8 @@
         </mat-form-field>
 
         <mat-card-actions class="action-buttons">
-            <!-- <button mat-raised-button color="primary" (click)="addForm()">Add Client</button> -->
-            <button mat-raised-button color="secondary" (click)="closeForm()">Cancel</button>
-            <button mat-raised-button color="primary" type="submit">Submit</button>
+            <button mat-raised-button matButton color="secondary" (click)="closeForm()" type="button">Cancel</button>
+            <button mat-raised-button matButton color="primary" (click)="saveClient()" [disabled]="clientForm.invalid">Submit</button>
         </mat-card-actions>
     </form>
 </section>

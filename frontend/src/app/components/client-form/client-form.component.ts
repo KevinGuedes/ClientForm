@@ -15,7 +15,6 @@ export class ClientFormComponent implements OnInit {
 
   public client: Client = new Client();
   public clientForm: FormGroup;
-  private currentDate: Date = new Date();
 
   constructor(
     private clientService: ClientService
@@ -56,10 +55,9 @@ export class ClientFormComponent implements OnInit {
   }
 
   saveClient(): void {
-    console.log(this.formControl.birth)
-    // const client: Client = new Client(this.clientForm.value.name, this.clientForm.value.email, this.clientForm.value.birth, this.clientForm.value.country, this.clientForm.value.city, this.clientForm.value.mother)
+    const client: Client = new Client(this.clientForm.value.name, this.clientForm.value.email, this.clientForm.value.birth, this.clientForm.value.country, this.clientForm.value.city, this.clientForm.value.mother)
 
-    // const isValidClient = this.clientService.validateClient(client);
+    const isValidClient = this.clientService.validateClient(client);
 
     // if (isValidClient)
     //   this.clientService.insert(client).subscribe(() => {

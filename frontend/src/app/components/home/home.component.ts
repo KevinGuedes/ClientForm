@@ -16,15 +16,9 @@ export class HomeComponent implements OnInit {
 
   openClientForm(): void {
     this.showClientForm = true;
-
-    let now = new Date();
-    let age = now.getFullYear();
-
-    console.log(age)
   }
 
   closeClientForm(event: boolean): void {
     this.showClientForm = false;
-
   }
 }

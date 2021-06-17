@@ -21,7 +21,6 @@ export class ClientService {
   }
 
   insert(client: Client): Observable<Client> {
-    console.log(client);
     return this.http.post<Client>(this.apiUrl, client).pipe(
       map(c => c),
       catchError(error => this.errorHandler(error))

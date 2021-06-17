@@ -18,6 +18,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete'
 import { MatDividerModule } from '@angular/material/divider';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { MatDividerModule } from '@angular/material/divider';
     MatNativeDateModule,
     MatAutocompleteModule,
     MatDividerModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

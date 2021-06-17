@@ -2,36 +2,58 @@
 
     <h1 class="form-title">New Client Form</h1>
 
-    <form class="customer-form">
+    <form class="customer-form" [formGroup]="clientForm" (ngSubmit)="saveClient()">
         <mat-form-field>
             <mat-label>Name</mat-label>
-            <input matInput placeholder="Name" [(ngModel)]="client.name" name="name" required>
+            <input matInput placeholder="Name" formControlName="name" name="name" required>
+            <mat-error *ngIf="formControl.name.touched && formControl.name.invalid">
+                Enter your full name
+            </mat-error>
         </mat-form-field>
-    
+
         <mat-form-field>
             <mat-label>Mother Name</mat-label>
-            <input matInput placeholder="Mother Name" [(ngModel)]="client.mother" name="mother" required>
+            <input matInput placeholder="Mother Name" formControlName="mother" name="mother"
+                required>
+            <mat-error *ngIf="formControl.mother.touched && formControl.mother.invalid">
+                Enter your mother name
+            </mat-error>
         </mat-form-field>
-    
+
         <mat-form-field>
             <mat-label>Email</mat-label>
-            <input matInput placeholder="Email" [(ngModel)]="client.email" name="email" required>
+            <input matInput placeholder="Email" formControlName="email" name="email"
+                required>
+            <mat-error *ngIf="formControl.email.touched && formControl.email.invalid">
+                Enter your email
+            </mat-error>
         </mat-form-field>
-    
+
         <mat-form-field>
             <mat-label>Country</mat-label>
-            <input matInput placeholder="Country" [(ngModel)]="client.country" name="country" required>
+            <input matInput placeholder="Country" formControlName="country" name="country"
+                required>
+            <mat-error *ngIf="formControl.country.touched && formControl.country.invalid">
+                Enter your home country
+            </mat-error>
         </mat-form-field>
-    
+
         <mat-form-field>
             <mat-label>City</mat-label>
-            <input matInput placeholder="Email" [(ngModel)]="client.city" name="city" required autocomplete="false">
+            <input matInput placeholder="Email" formControlName="city" name="city" required
+                autocomplete="false">
+            <mat-error *ngIf="formControl.city.touched && formControl.city.invalid">
+                Enter your home city
+            </mat-error>
         </mat-form-field>
-    
+
         <mat-form-field appearance="fill" class="example-form-field">
             <mat-label>Birth Date</mat-label>
-            <input matInput [matDatepicker]="datepicker" [(ngModel)]="client.birth" name="birth" required
-                autocomplete="false">
+            <input matInput [matDatepicker]="datepicker" formControlName="birth" name="birth"
+                required autocomplete="false">
+            <mat-error *ngIf="formControl.birth.touched && formControl.birth.invalid">
+                Enter your birth date
+            </mat-error>
             <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
             <mat-datepicker #datepicker>
                 <mat-datepicker-actions>
@@ -40,11 +62,11 @@
                 </mat-datepicker-actions>
             </mat-datepicker>
         </mat-form-field>
-    </form>
 
-    <mat-card-actions class="action-buttons">
-        <!-- <button mat-raised-button color="primary" (click)="addForm()">Add Client</button> -->
-        <button mat-raised-button color="secondary" (click)="closeForm()">Cancel</button>
-        <button mat-raised-button color="primary" (click)="showClient()">Submit</button>
-    </mat-card-actions>
+        <mat-card-actions class="action-buttons">
+            <!-- <button mat-raised-button color="primary" (click)="addForm()">Add Client</button> -->
+            <button mat-raised-button color="secondary" (click)="closeForm()">Cancel</button>
+            <button mat-raised-button color="primary" type="submit">Submit</button>
+        </mat-card-actions>
+    </form>
 </section>

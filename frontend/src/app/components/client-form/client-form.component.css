@@ -17,9 +17,13 @@
     width: 50%;
 }
 
+mat-form-field {
+    padding: 0.4rem 0;
+}
+
 .action-buttons {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
 }
 
 button+button {

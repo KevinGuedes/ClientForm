@@ -4,13 +4,6 @@ import { Observable, EMPTY } from "rxjs";
 import { catchError, map } from 'rxjs/operators';
 import { Client } from '../models/client.model';
 
-
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json'
-  })
-}
-
 @Injectable({
   providedIn: 'root'
 })
@@ -23,12 +16,13 @@ export class ClientService {
   ) { }
 
   validateClient(client: Client): boolean {
-    return Object.values(client).map(value => !!value).every(value => value == true)
+    let isValidClient = Object.values(client).map(value => !!value).every(value => value == true)
+    return true;
   }
 
   insert(client: Client): Observable<Client> {
-    console.log(client.birth);
-    return this.http.post<Client>(this.apiUrl, client, httpOptions).pipe(
+    console.log(client);
+    return this.http.post<Client>(this.apiUrl, client).pipe(
       map(c => c),
       catchError(error => this.errorHandler(error))
     );

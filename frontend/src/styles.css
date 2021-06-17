@@ -8,3 +8,12 @@ body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+/* Changing the autofilled input (from angular material) background color  */
+
+input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active {
+    transition: background-color 500000s ease-in-out 0s;
+    /* -webkit-text-fill-color: black; change the input autofilled textcolor */
+    -webkit-box-shadow: 0 0 0 30px #ffffff inset !important;
+    box-shadow: 0 0 30px #ffffff inset;
+}

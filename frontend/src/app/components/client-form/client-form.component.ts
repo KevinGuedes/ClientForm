@@ -1,7 +1,8 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { Client } from 'src/app/models/client.model';
 import { ClientService } from 'src/app/services/client.service';
+import { AgeValidator } from 'src/app/tools/validators/ageValidator';
 
 @Component({
   selector: 'app-client-form',
@@ -45,6 +46,7 @@ export class ClientFormComponent implements OnInit {
       ]),
       birth: new FormControl(null, [
         Validators.required,
+        AgeValidator
       ]),
     })
   }
@@ -54,16 +56,17 @@ export class ClientFormComponent implements OnInit {
   }
 
   saveClient(): void {
-    const client: Client = new Client(this.clientForm.value.name, this.clientForm.value.email, this.clientForm.value.birth, this.clientForm.value.country, this.clientForm.value.city, this.clientForm.value.mother)
+    console.log(this.formControl.birth)
+    // const client: Client = new Client(this.clientForm.value.name, this.clientForm.value.email, this.clientForm.value.birth, this.clientForm.value.country, this.clientForm.value.city, this.clientForm.value.mother)
 
-    const isValidClient = this.clientService.validateClient(client);
+    // const isValidClient = this.clientService.validateClient(client);
 
-    if (isValidClient)
-      this.clientService.insert(client).subscribe(() => {
-        console.log("Client successfully registered")
-      });
-    else
-      console.error("Invalid Client entity")
+    // if (isValidClient)
+    //   this.clientService.insert(client).subscribe(() => {
+    //     console.log("Client successfully registered")
+    //   });
+    // else
+    //   console.error("Invalid Client entity")
   }
 
 }

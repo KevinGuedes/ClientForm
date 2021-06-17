@@ -17,11 +17,20 @@
     width: 50%;
 }
 
-mat-form-field {
-    padding: 0.4rem 0;
+mat-form-field+mat-form-field {
+    padding-top: 0.4rem;
+}
+
+mat-form-field:last-of-type {
+    padding-bottom: 1.2rem;
+}
+
+.date-input {
+    padding-top: 0.8rem !important;
 }
 
 .action-buttons {
+    padding-top: 0.4rem;
     display: flex;
     justify-content: center;
 }

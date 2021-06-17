@@ -47,12 +47,15 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="fill" class="example-form-field">
+        <mat-form-field appearance="fill" class="date-input">
             <mat-label>Birth Date</mat-label>
             <input matInput [matDatepicker]="datepicker" formControlName="birth" name="birth"
                 required autocomplete="false">
-            <mat-error *ngIf="formControl.birth.touched && formControl.birth.invalid">
+            <mat-error *ngIf="formControl.birth.touched && formControl.birth.errors?.required">
                 Enter your birth date
+            </mat-error>
+            <mat-error *ngIf="formControl.birth.touched &&  formControl.birth.errors?.age">
+                You must be over 18 years old to create an account
             </mat-error>
             <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
             <mat-datepicker #datepicker>

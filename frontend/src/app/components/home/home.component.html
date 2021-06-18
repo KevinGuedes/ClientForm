@@ -1,10 +1,10 @@
 <mat-card class="home-card mat-elevation-z4">
     <mat-card-header class="header">
-        <div mat-card-avatar>
+        <section mat-card-avatar>
             <mat-icon>
                 account_circle
             </mat-icon>
-        </div>
+        </section>
         <mat-card-title>Client Register</mat-card-title>
         <mat-card-subtitle>Create new account</mat-card-subtitle>
     </mat-card-header>
@@ -36,4 +36,3 @@
 
     <app-client-form *ngIf="showClientForm" (close)="closeClientForm($event)"></app-client-form>
 </mat-card>
-<app-footer></app-footer>

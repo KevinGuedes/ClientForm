@@ -1,2 +1,3 @@
 #Improvements
-[ ] create dialog when new a client is registered
+[ ] Create dialog when new a client is registered
+[ ] Client entity validation

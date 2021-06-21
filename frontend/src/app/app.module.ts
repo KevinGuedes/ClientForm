@@ -21,6 +21,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FooterComponent } from './components/footer/footer.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { RegisterConfirmationComponent } from './components/dialogs/register-confirmation/register-confirmation/register-confirmation.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     HomeComponent,
     ClientFormComponent,
     FooterComponent,
+    RegisterConfirmationComponent,
   ],
   imports: [
     BrowserModule,

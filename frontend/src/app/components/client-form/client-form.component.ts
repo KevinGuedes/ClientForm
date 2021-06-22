@@ -56,13 +56,13 @@ export class ClientFormComponent implements OnInit {
 
   closeForm(): void {
     this.closeClientForm.emit(true)
+    console.log(this.clientForm.valid)
   }
 
   saveClient(): void {
     const client: Client = new Client(this.clientForm.value.name, this.clientForm.value.email, this.clientForm.value.birth, this.clientForm.value.country, this.clientForm.value.city, this.clientForm.value.mother)
-    const isValidClient = this.clientService.validateClient(client);
 
-    if (isValidClient) {
+    if (this.clientForm.valid) {
       this.dialog
         .open(RegisterConfirmationComponent, {
           width: "40%",
@@ -70,14 +70,12 @@ export class ClientFormComponent implements OnInit {
         })
         .afterClosed().subscribe(dataConfirmed => {
           if (dataConfirmed) {
-            // this.clientService.insert(client).subscribe(() => {
-            //   console.log("Client successfully registered")
-            // });
-
-            //TODO send this line to clientService insert subscribe 
-            this.registerSucceeded.emit({
-              client: client,
-              success: true
+            this.clientService.insert(client).subscribe(() => {
+              console.log("Client successfully registered")
+              this.registerSucceeded.emit({
+                client: client,
+                success: true
+              });
             });
           }
         })

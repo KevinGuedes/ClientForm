@@ -16,11 +16,6 @@ export class ClientService {
     private http: HttpClient,
   ) { }
 
-  validateClient(client: Client): boolean {
-    let isValidClient = Object.values(client).map(value => !!value).every(value => value == true)
-    return true;
-  }
-
   insert(client: Client): Observable<Client> {
     return this.http.post<Client>(this.apiUrl, client).pipe(
       map(c => c),

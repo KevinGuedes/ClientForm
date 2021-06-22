@@ -1,11 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { HomeComponent } from './components/home/home.component';
-import { ClientFormComponent } from './components/client-form/client-form.component';
-
 import { HttpClientModule } from '@angular/common/http'
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -21,13 +15,20 @@ import { MatDividerModule } from '@angular/material/divider';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FooterComponent } from './components/footer/footer.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatDialogModule } from '@angular/material/dialog';
 
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { HomeComponent } from './components/home/home.component';
+import { ClientFormComponent } from './components/client-form/client-form.component';
+import { RegisterConfirmationComponent } from './components/dialogs/register-confirmation/register-confirmation.component';
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     ClientFormComponent,
     FooterComponent,
+    RegisterConfirmationComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,8 +47,12 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatDividerModule,
     ReactiveFormsModule,
     MatToolbarModule,
+    MatDialogModule,
   ],
   providers: [],
+  entryComponents: [
+    RegisterConfirmationComponent,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

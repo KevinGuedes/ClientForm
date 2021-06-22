@@ -68,10 +68,8 @@
 
         <mat-card-actions class="action-buttons">
             <button mat-raised-button matButton color="secondary" (click)="closeForm()" type="button">Cancel</button>
-            <!-- <button mat-raised-button matButton color="primary" (click)="saveClient()" [disabled]="clientForm.invalid">Submit</button> -->
-            <button mat-raised-button matButton color="primary" (click)="saveClient()"
-                [disabled]="false">Submit</button>
-
+            <!-- <button mat-raised-button matButton color="primary" [disabled]="false" type="submit">Submit</button> -->
+            <button mat-raised-button matButton color="primary" [disabled]="clientForm.invalid" type="submit">Submit</button>
         </mat-card-actions>
     </form>
 </section>

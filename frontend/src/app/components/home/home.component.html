@@ -12,27 +12,47 @@
     <mat-divider></mat-divider>
 
     <mat-card-content class="content">
-        <p>
-            You will have to provide the following personal informations to create your account:
-        </p>
-        <ul>
-            <li>Name</li>
-            <li>Email</li>
-            <li>Country</li>
-            <li>City</li>
-            <li>Birth Date</li>
-            <li>Mother Name</li>
-        </ul>
 
-        <p>
-            If you wish to proceed, click on the 'Register' button below.
-        </p>
+        <section *ngIf="!showWelcomeMessage; else welcomeContent" class="register-content">
+            <p>
+                You will have to provide the following personal informations to create your account:
+            </p>
+            <ul>
+                <li>Name</li>
+                <li>Email</li>
+                <li>Country</li>
+                <li>City</li>
+                <li>Birth Date</li>
+                <li>Mother Name</li>
+            </ul>
+
+            <p>
+                If you wish to proceed, click on the 'Register' button below.
+            </p>
+        </section>
+
+        <ng-template #welcomeContent>
+            <section class="welcome-content">
+                <section>
+                    <mat-icon class="welcome-icon">
+                        check
+                    </mat-icon>
+                </section>
+                <section class="welcome-message">
+                    <p class="welcome-message-title">Welcome, <strong class="client-name">{{client.name}}</strong></p>
+                    <p class="welcome-message-content">You are now ready to use our service. Enjoy them!</p>
+                </section>
+            </section>
+        </ng-template>
+
     </mat-card-content>
+    
     <mat-divider></mat-divider>
 
-    <mat-card-actions *ngIf="!showClientForm" class="action-buttons">
+    <mat-card-actions *ngIf="!showClientForm && !showWelcomeMessage" class="action-buttons">
         <button mat-raised-button color="primary" (click)="openClientForm()">Register</button>
     </mat-card-actions>
 
-    <app-client-form *ngIf="showClientForm" (close)="closeClientForm($event)"></app-client-form>
+    <app-client-form *ngIf="showClientForm" (close)="closeClientForm($event)" (success)="welcomeMessage($event)">
+    </app-client-form>
 </mat-card>

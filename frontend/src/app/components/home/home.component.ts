@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Client } from 'src/app/models/client.model';
 
 @Component({
   selector: 'app-home',
@@ -8,6 +9,8 @@ import { Component, OnInit } from '@angular/core';
 export class HomeComponent implements OnInit {
 
   public showClientForm: boolean = false;
+  public showWelcomeMessage: boolean = false;
+  public client: Client;
 
   constructor() { }
 
@@ -19,6 +22,12 @@ export class HomeComponent implements OnInit {
   }
 
   closeClientForm(event: boolean): void {
+    this.showClientForm = false;
+  }
+
+  welcomeMessage(event: any): void {
+    this.client = event.client;
+    this.showWelcomeMessage = true;
     this.showClientForm = false;
   }
 }

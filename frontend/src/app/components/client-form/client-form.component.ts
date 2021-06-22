@@ -14,6 +14,7 @@ import { RegisterConfirmationComponent } from 'src/app/components/dialogs/regist
 export class ClientFormComponent implements OnInit {
 
   @Output("close") closeClientForm: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output("success") registerSucceeded: EventEmitter<any> = new EventEmitter<any>();
 
   public client: Client = new Client();
   public clientForm: FormGroup;
@@ -64,14 +65,21 @@ export class ClientFormComponent implements OnInit {
     if (isValidClient) {
       this.dialog
         .open(RegisterConfirmationComponent, {
-          width: "30%",
+          width: "40%",
           data: { client }
         })
-        .afterClosed().subscribe(result => {
-          if (result)
-            this.clientService.insert(client).subscribe(() => {
-              console.log("Client successfully registered")
+        .afterClosed().subscribe(dataConfirmed => {
+          if (dataConfirmed) {
+            // this.clientService.insert(client).subscribe(() => {
+            //   console.log("Client successfully registered")
+            // });
+
+            //TODO send this line to clientService insert subscribe 
+            this.registerSucceeded.emit({
+              client: client,
+              success: true
             });
+          }
         })
     }
   }

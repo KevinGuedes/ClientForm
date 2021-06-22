@@ -16,3 +16,28 @@
 button {
     height: 35px;
 }
+
+.welcome-content, .welcome-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.welcome-icon {
+    width: 100%;
+    font-size: 90px;
+    color: #28a745;
+}
+
+.welcome-message-title {
+    font-size: 1.4rem;
+}
+
+.welcome-message-content {
+    color: #aeadae;
+    font-size: 1rem;
+}
+
+.client-name {
+    font-weight: 450;
+}

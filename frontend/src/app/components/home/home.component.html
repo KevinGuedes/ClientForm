@@ -5,18 +5,20 @@
                 account_circle
             </mat-icon>
         </section>
+
         <mat-card-title>Client Register</mat-card-title>
+
         <mat-card-subtitle>Create new account</mat-card-subtitle>
     </mat-card-header>
 
     <mat-divider></mat-divider>
 
     <mat-card-content class="content">
-
         <section *ngIf="!showWelcomeMessage; else welcomeContent" class="register-content">
             <p>
                 You will have to provide the following personal informations to create your account:
             </p>
+
             <ul>
                 <li>Name</li>
                 <li>Email</li>
@@ -38,6 +40,7 @@
                         check
                     </mat-icon>
                 </section>
+                
                 <section class="welcome-message">
                     <p class="welcome-message-title">Welcome, <strong class="client-name">{{client.name}}</strong></p>
                     <p class="welcome-message-content">You are now ready to use our service. Enjoy them!</p>

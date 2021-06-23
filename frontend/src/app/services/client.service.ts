@@ -26,7 +26,7 @@ export class ClientService {
   }
 
   errorHandler(error: any): Observable<any> {
-    this.snackBarService.errorMessage("Back-end went rogue! Sorry!")
+    this.snackBarService.errorMessage("Back-end went rogue, sorry!")
     return EMPTY
   }
 }

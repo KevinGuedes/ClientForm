@@ -14,3 +14,18 @@ input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:foc
     transition: background-color 500000s ease-in-out 0s;
     /* -webkit-text-fill-color: black; change the input autofilled textcolor */
 }
+
+.msg-success {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.msg-error {
+    background-color: rgb(227, 94, 107);
+    color: #fff;
+}
+
+.msg-warning {
+    background-color: rgb(253, 220, 31);
+    color: #fff;
+}

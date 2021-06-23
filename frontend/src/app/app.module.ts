@@ -17,11 +17,13 @@ import { FooterComponent } from './components/footer/footer.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDialogModule } from '@angular/material/dialog';
 
+import { MatSnackBarModule } from '@angular/material/snack-bar'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { ClientFormComponent } from './components/client-form/client-form.component';
 import { RegisterConfirmationComponent } from './components/dialogs/register-confirmation/register-confirmation.component';
+import { SnackBarComponent } from './components/snack-bar/snack-bar.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,6 +31,7 @@ import { RegisterConfirmationComponent } from './components/dialogs/register-con
     ClientFormComponent,
     FooterComponent,
     RegisterConfirmationComponent,
+    SnackBarComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,10 +51,12 @@ import { RegisterConfirmationComponent } from './components/dialogs/register-con
     ReactiveFormsModule,
     MatToolbarModule,
     MatDialogModule,
+    MatSnackBarModule,
   ],
   providers: [],
   entryComponents: [
     RegisterConfirmationComponent,
+    SnackBarComponent,
   ],
   bootstrap: [AppComponent]
 })

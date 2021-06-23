@@ -4,6 +4,7 @@ import { Observable, EMPTY } from "rxjs";
 import { catchError, map } from 'rxjs/operators';
 import { Client } from '../models/client.model';
 import { environment } from 'src/environments/environment'
+import { SnackBarService } from './snack-bar.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class ClientService {
 
   constructor(
     private http: HttpClient,
+    private snackBarService: SnackBarService,
   ) { }
 
   insert(client: Client): Observable<Client> {
@@ -24,7 +26,7 @@ export class ClientService {
   }
 
   errorHandler(error: any): Observable<any> {
-    console.error(error);
-    return EMPTY;
+    this.snackBarService.errorMessage("Back-end went rogue! Sorry!")
+    return EMPTY
   }
 }

@@ -5,6 +5,7 @@ import { ClientService } from 'src/app/services/client.service';
 import { AgeValidator } from 'src/app/tools/validators/ageValidator';
 import { MatDialog } from '@angular/material/dialog';
 import { RegisterConfirmationComponent } from 'src/app/components/dialogs/register-confirmation/register-confirmation.component';
+import { SnackBarService } from 'src/app/services/snack-bar.service';
 
 @Component({
   selector: 'app-client-form',
@@ -21,6 +22,7 @@ export class ClientFormComponent implements OnInit {
 
   constructor(
     private clientService: ClientService,
+    private snackBarService: SnackBarService,
     private dialog: MatDialog
   ) { }
 
@@ -56,7 +58,6 @@ export class ClientFormComponent implements OnInit {
 
   closeForm(): void {
     this.closeClientForm.emit(true)
-    console.log(this.clientForm.valid)
   }
 
   saveClient(): void {
@@ -64,21 +65,21 @@ export class ClientFormComponent implements OnInit {
 
     if (this.clientForm.valid) {
       this.dialog
-        .open(RegisterConfirmationComponent, {
-          width: "40%",
-          data: { client }
-        })
+        .open(RegisterConfirmationComponent, { width: "40%", data: { client } })
         .afterClosed().subscribe(dataConfirmed => {
+
           if (dataConfirmed) {
             this.clientService.insert(client).subscribe(() => {
-              console.log("Client successfully registered")
-              this.registerSucceeded.emit({
-                client: client,
-                success: true
-              });
+              this.snackBarService.successMessage("Client successfully registered")
+              this.registerSucceeded.emit({ client: client, success: true });
             });
+          }
+          else {
+            this.snackBarService.warningMessage("Double check the provided data")
           }
         })
     }
+
+
   }
 }

@@ -2,7 +2,7 @@
 
     <h1 class="form-title">New Client Form</h1>
 
-    <form class="customer-form" [formGroup]="clientForm" (ngSubmit)="saveClient()">
+    <form *ngIf="!isRegistering; else spinner" class="customer-form" [formGroup]="clientForm" (ngSubmit)="saveClient()">
         <mat-form-field appearance="fill">
             <mat-label>Name</mat-label>
             <input matInput placeholder="Name" formControlName="name" name="name" required>
@@ -71,4 +71,11 @@
             <button mat-raised-button matButton color="primary" [disabled]="clientForm.invalid" type="submit">Submit</button>
         </mat-card-actions>
     </form>
+
+    <ng-template #spinner>
+        <section class="spinner-container">
+            <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+            <p class="loading-message">Registering client, please wait.</p>
+        </section>
+    </ng-template>
 </section>

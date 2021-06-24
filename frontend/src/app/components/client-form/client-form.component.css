@@ -42,3 +42,16 @@ button+button {
 button {
     height: 35px;
 }
+
+.spinner-container {
+    padding: 3rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.loading-message {
+    margin-top: 3rem;
+    color: #aeadae;
+    font-size: 1rem;
+}

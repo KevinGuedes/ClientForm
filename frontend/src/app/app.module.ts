@@ -16,6 +16,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FooterComponent } from './components/footer/footer.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { MatSnackBarModule } from '@angular/material/snack-bar'
 import { AppRoutingModule } from './app-routing.module';
@@ -52,6 +53,7 @@ import { SnackBarComponent } from './components/snack-bar/snack-bar.component';
     MatToolbarModule,
     MatDialogModule,
     MatSnackBarModule,
+    MatProgressSpinnerModule,
   ],
   providers: [],
   entryComponents: [

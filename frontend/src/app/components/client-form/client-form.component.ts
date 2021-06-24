@@ -19,6 +19,7 @@ export class ClientFormComponent implements OnInit {
 
   public client: Client = new Client();
   public clientForm: FormGroup;
+  public isRegistering: boolean = false;
 
   constructor(
     private clientService: ClientService,
@@ -64,22 +65,26 @@ export class ClientFormComponent implements OnInit {
     const client: Client = new Client(this.clientForm.value.name, this.clientForm.value.email, this.clientForm.value.birth, this.clientForm.value.country, this.clientForm.value.city, this.clientForm.value.mother)
 
     if (this.clientForm.valid) {
+
       this.dialog
         .open(RegisterConfirmationComponent, { width: "40%", data: { client } })
         .afterClosed().subscribe(dataConfirmed => {
 
           if (dataConfirmed) {
+            this.isRegistering = true;
+
             this.clientService.insert(client).subscribe(() => {
               this.snackBarService.successMessage("Client successfully registered")
               this.registerSucceeded.emit({ client: client, success: true });
+              this.isRegistering = false;
             });
           }
           else {
             this.snackBarService.warningMessage("Double check the provided data")
           }
+
         })
+
     }
-
-
   }
 }

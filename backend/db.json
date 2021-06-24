@@ -1,13 +1,3 @@
 {
-  "clients": [
-    {
-      "name": "Kevin Guedes",
-      "email": "kevinguedes1@hotmail.com",
-      "birth": "1926-07-15T03:00:00.000Z",
-      "country": "Brasil",
-      "city": "Fortaleza",
-      "mother": "Creusa",
-      "id": 1
-    }
-  ]
+  "clients": []
 }

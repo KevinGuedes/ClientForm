@@ -22,26 +22,6 @@ export class ClientFormComponent implements OnInit {
   public isRegistering: boolean = false;
 
   public clientsForm = this.formBuilder.group({
-    name: new FormControl(null, [
-      Validators.minLength(3)
-    ]),
-    mother: new FormControl(null, [
-      Validators.required,
-    ]),
-    email: new FormControl(null, [
-      Validators.required,
-      Validators.email
-    ]),
-    country: new FormControl(null, [
-      Validators.required,
-    ]),
-    city: new FormControl(null, [
-      Validators.required,
-    ]),
-    birth: new FormControl(null, [
-      Validators.required,
-      AgeValidator
-    ]),
     clients: this.formBuilder.array([])
   })
   constructor(
@@ -64,6 +44,7 @@ export class ClientFormComponent implements OnInit {
   }
 
   addClient(): void {
+
     const clientForm = this.formBuilder.group({
       name: new FormControl(null, [
         Validators.required,
@@ -91,7 +72,7 @@ export class ClientFormComponent implements OnInit {
     this.clients.push(clientForm);
   }
 
-  removeClient(index: number, control: AbstractControl): void {
+  removeClient(index: number, control: FormControl): void {
     // this.clients.removeAt(index)
     console.log(control)
 
@@ -99,7 +80,7 @@ export class ClientFormComponent implements OnInit {
   }
 
   saveClient(): void {
-    console.log(this.clients)
+    console.log(this.clientsForm.value)
 
     //   const client: Client = new Client(this.clientForm.value.name, this.clientForm.value.email, this.clientForm.value.birth, this.clientForm.value.country, this.clientForm.value.city, this.clientForm.value.mother)
 

@@ -1,19 +1,22 @@
-<div class="form-section" [formGroup]="clientsForm">
+<form class="form-section" [formGroup]="clientsForm" (ngSubmit)="saveClient()">
 
     <ng-container formArrayName="clients">
 
         <ng-container *ngFor="let clientForm of clients.controls; let i = index">
-            <h1>Cliente #{{i +1}}</h1>
+            <h1>Cliente #{{ i + 1 }}</h1>
 
             <div class="teste" [formGroupName]="i">
                 <mat-form-field appearance="fill">
                     <mat-label>Name</mat-label>
-                    <input matInput placeholder="Name" formControlName="name">
+                    <input matInput placeholder="Name" formControlName="name" required>
                     <mat-error *ngIf="clientForm['controls'].name.touched && clientForm['controls'].name.errors?.required">
                         Enter your name
                     </mat-error>
                     <mat-error *ngIf="clientForm['controls'].name.touched && clientForm['controls'].name.errors?.minlength">
                         Name must have more than 3 letters
+                    </mat-error>
+                    <mat-error *ngIf="clientForm['controls'].name.errors?.required">
+                        Enter your name
                     </mat-error>
                 </mat-form-field>
             </div>
@@ -22,8 +25,8 @@
         
     </ng-container>
     <button (click)="addClient()">Add client</button>
-    <button type="submit" (click)="saveClient()">Submit</button>
-</div>
+    <button type="submit">Submit</button>
+</form>
 
 
 <!-- 

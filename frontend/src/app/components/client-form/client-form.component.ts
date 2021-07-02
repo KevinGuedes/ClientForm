@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder, FormArray, AbstractControl } from '@angular/forms';
 import { Client } from 'src/app/models/client.model';
 import { ClientService } from 'src/app/services/client.service';
 import { AgeValidator } from 'src/app/tools/validators/ageValidator';
@@ -21,18 +21,50 @@ export class ClientFormComponent implements OnInit {
   public clientForm: FormGroup;
   public isRegistering: boolean = false;
 
+  public clientsForm = this.formBuilder.group({
+    name: new FormControl(null, [
+      Validators.minLength(3)
+    ]),
+    mother: new FormControl(null, [
+      Validators.required,
+    ]),
+    email: new FormControl(null, [
+      Validators.required,
+      Validators.email
+    ]),
+    country: new FormControl(null, [
+      Validators.required,
+    ]),
+    city: new FormControl(null, [
+      Validators.required,
+    ]),
+    birth: new FormControl(null, [
+      Validators.required,
+      AgeValidator
+    ]),
+    clients: this.formBuilder.array([])
+  })
   constructor(
     private clientService: ClientService,
     private snackBarService: SnackBarService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private formBuilder: FormBuilder
   ) { }
 
-  get formControl() {
-    return this.clientForm.controls;
+  get clients() {
+    return this.clientsForm.controls["clients"] as FormArray;
   }
 
   ngOnInit(): void {
-    this.clientForm = new FormGroup({
+    this.addClient()
+  }
+
+  closeForm(): void {
+    this.closeClientForm.emit(true)
+  }
+
+  addClient(): void {
+    const clientForm = this.formBuilder.group({
       name: new FormControl(null, [
         Validators.required,
         Validators.minLength(3)
@@ -55,36 +87,43 @@ export class ClientFormComponent implements OnInit {
         AgeValidator
       ]),
     })
+
+    this.clients.push(clientForm);
   }
 
-  closeForm(): void {
-    this.closeClientForm.emit(true)
+  removeClient(index: number, control: AbstractControl): void {
+    // this.clients.removeAt(index)
+    console.log(control)
+
+
   }
 
   saveClient(): void {
-    const client: Client = new Client(this.clientForm.value.name, this.clientForm.value.email, this.clientForm.value.birth, this.clientForm.value.country, this.clientForm.value.city, this.clientForm.value.mother)
+    console.log(this.clients)
 
-    if (this.clientForm.valid) {
+    //   const client: Client = new Client(this.clientForm.value.name, this.clientForm.value.email, this.clientForm.value.birth, this.clientForm.value.country, this.clientForm.value.city, this.clientForm.value.mother)
 
-      this.dialog
-        .open(RegisterConfirmationComponent, { width: "40%", data: { client } })
-        .afterClosed().subscribe(dataConfirmed => {
+    //   if (this.clientForm.valid) {
 
-          if (dataConfirmed) {
-            this.isRegistering = true;
+    //     this.dialog
+    //       .open(RegisterConfirmationComponent, { width: "40%", data: { client } })
+    //       .afterClosed().subscribe(dataConfirmed => {
 
-            this.clientService.insert(client).subscribe(() => {
-              this.snackBarService.successMessage("Client successfully registered")
-              this.registerSucceeded.emit({ client: client, success: true });
-              this.isRegistering = false;
-            });
-          }
-          else {
-            this.snackBarService.warningMessage("Double check the provided data")
-          }
+    //         if (dataConfirmed) {
+    //           this.isRegistering = true;
 
-        })
+    //           this.clientService.insert(client).subscribe(() => {
+    //             this.snackBarService.successMessage("Client successfully registered")
+    //             this.registerSucceeded.emit({ client: client, success: true });
+    //             this.isRegistering = false;
+    //           });
+    //         }
+    //         else {
+    //           this.snackBarService.warningMessage("Double check the provided data")
+    //         }
 
-    }
+    //       })
+
+    //   }
   }
 }

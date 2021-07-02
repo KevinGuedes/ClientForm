@@ -1,5 +1,32 @@
-<section class="form-section">
+<div class="form-section" [formGroup]="clientsForm">
 
+    <ng-container formArrayName="clients">
+
+        <ng-container *ngFor="let clientForm of clients.controls; let i = index">
+            <h1>Cliente #{{i +1}}</h1>
+
+            <div class="teste" [formGroupName]="i">
+                <mat-form-field appearance="fill">
+                    <mat-label>Name</mat-label>
+                    <input matInput placeholder="Name" formControlName="name">
+                    <mat-error *ngIf="clientForm['controls'].name.touched && clientForm['controls'].name.errors?.required">
+                        Enter your name
+                    </mat-error>
+                    <mat-error *ngIf="clientForm['controls'].name.touched && clientForm['controls'].name.errors?.minlength">
+                        Name must have more than 3 letters
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <button (click)="removeClient(i, clientForm['controls'].name)">Remove</button>
+        </ng-container>
+        
+    </ng-container>
+    <button (click)="addClient()">Add client</button>
+    <button type="submit" (click)="saveClient()">Submit</button>
+</div>
+
+
+<!-- 
     <h1 class="form-title">New Client Form</h1>
 
     <form *ngIf="!isRegistering; else spinner" class="customer-form" [formGroup]="clientForm" (ngSubmit)="saveClient()">
@@ -64,7 +91,7 @@
                     <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
                 </mat-datepicker-actions>
             </mat-datepicker>
-        </mat-form-field>
+        </mat-form-field> 
 
         <mat-card-actions class="action-buttons">
             <button mat-raised-button matButton color="secondary" (click)="closeForm()" type="button">Cancel</button>
@@ -78,4 +105,4 @@
             <p class="loading-message">Registering client, please wait.</p>
         </section>
     </ng-template>
-</section>
+</section> -->

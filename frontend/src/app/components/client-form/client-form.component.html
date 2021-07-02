@@ -1,35 +1,33 @@
-<div class="form-section" [formGroup]="clientsForm" novalidate #allClientsForm="ngForm">
+<section class="form-section" [formGroup]="clientsForm" novalidate #allClientsForm="ngForm">
     <h1 class="form-title">New Clients Form</h1>
 
     <ng-container formArrayName="clients">
 
         <ng-container *ngFor="let clientForm of clients.controls; let i = index">
 
-            <h2>Cliente #{{ i + 1 }}</h2>
+            <h2>Client #{{ i + 1 }}</h2>
 
-            <div [formGroupName]="i">
+            <section [formGroupName]="i">
                 <mat-form-field appearance="fill">
                     <mat-label>Name</mat-label>
                     <input matInput placeholder="Name" formControlName="name" required>
-                    <mat-error *ngIf="clientForm['controls'].name.invalid">
-                        Enter your name1
+                    <mat-error *ngIf="clientForm['controls'].name.hasError('required') && clientForm['controls'].name.touched ">
+                        Enter your name
                     </mat-error>
-                    <mat-error *ngIf="clientForm['controls'].name.touched">
-                        Enter your name2
-                    </mat-error>
-                    <mat-error *ngIf="allClientsForm.submitted && clientForm['controls'].name.invalid">
-                        Enter your name3
+                    <mat-error *ngIf="clientForm['controls'].name.hasError('minlength') && clientForm['controls'].name.touched">
+                        Name must have more than 3 characters
                     </mat-error>
                 </mat-form-field>
-            </div>
-            <button (click)="removeClient(i, allClientsForm)">Remove</button>
-            <button type="submit" (click)="saveClient(allClientsForm)">Submit</button>
-
+            </section>
+            <button (click)="removeClient(i)">Remove</button>
+            
         </ng-container>
         
+        <button (click)="saveClient(allClientsForm)">Submit</button>
     </ng-container>
     <button (click)="addClient()">Add client</button>
-</div>
+
+</section>
 
 
 <!-- 

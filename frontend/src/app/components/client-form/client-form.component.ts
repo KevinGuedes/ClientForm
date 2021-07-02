@@ -69,17 +69,15 @@ export class ClientFormComponent implements OnInit {
     this.clients.push(clientForm);
   }
 
-  removeClient(index: number, control: FormGroupDirective): void {
-    // this.clients.removeAt(index)
-    console.log(control)
-
-
+  removeClient(index: number): void {
+    this.clients.removeAt(index)
   }
 
   saveClient(control: FormGroupDirective): void {
     control.form.markAllAsTouched();
-    control.form.updateValueAndValidity()
-    console.log(control)
+    console.log(control.valid)
+    const { clients } = control.value;
+    console.log(clients)
     //   const client: Client = new Client(this.clientForm.value.name, this.clientForm.value.email, this.clientForm.value.birth, this.clientForm.value.country, this.clientForm.value.city, this.clientForm.value.mother)
 
     //   if (this.clientForm.valid) {

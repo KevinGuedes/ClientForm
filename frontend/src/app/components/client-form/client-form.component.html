@@ -7,7 +7,7 @@
 
             <h2>Client #{{ i + 1 }}</h2>
 
-            <section [formGroupName]="i">
+            <form [formGroupName]="i">
                 <mat-form-field appearance="fill">
                     <mat-label>Name</mat-label>
                     <input matInput placeholder="Name" formControlName="name" required>
@@ -18,13 +18,15 @@
                         Name must have more than 3 characters
                     </mat-error>
                 </mat-form-field>
-            </section>
+            </form>
             <button (click)="removeClient(i)">Remove</button>
             
         </ng-container>
         
-        <button (click)="saveClient(allClientsForm)">Submit</button>
+
     </ng-container>
+
+    <button (click)="saveClient(allClientsForm)">Submit</button>
     <button (click)="addClient()">Add client</button>
 
 </section>

@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder, FormArray, AbstractControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder, FormArray, AbstractControl, FormGroupDirective } from '@angular/forms';
 import { Client } from 'src/app/models/client.model';
 import { ClientService } from 'src/app/services/client.service';
 import { AgeValidator } from 'src/app/tools/validators/ageValidator';
@@ -47,14 +47,12 @@ export class ClientFormComponent implements OnInit {
 
     const clientForm = this.formBuilder.group({
       name: new FormControl(null, [
-        Validators.required,
         Validators.minLength(3)
       ]),
       mother: new FormControl(null, [
         Validators.required,
       ]),
       email: new FormControl(null, [
-        Validators.required,
         Validators.email
       ]),
       country: new FormControl(null, [
@@ -68,20 +66,20 @@ export class ClientFormComponent implements OnInit {
         AgeValidator
       ]),
     })
-
     this.clients.push(clientForm);
   }
 
-  removeClient(index: number, control: FormControl): void {
+  removeClient(index: number, control: FormGroupDirective): void {
     // this.clients.removeAt(index)
     console.log(control)
 
 
   }
 
-  saveClient(): void {
-    console.log(this.clientsForm.value)
-
+  saveClient(control: FormGroupDirective): void {
+    control.form.markAllAsTouched();
+    control.form.updateValueAndValidity()
+    console.log(control)
     //   const client: Client = new Client(this.clientForm.value.name, this.clientForm.value.email, this.clientForm.value.birth, this.clientForm.value.country, this.clientForm.value.city, this.clientForm.value.mother)
 
     //   if (this.clientForm.valid) {

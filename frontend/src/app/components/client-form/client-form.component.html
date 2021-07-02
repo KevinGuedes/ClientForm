@@ -1,32 +1,35 @@
-<form class="form-section" [formGroup]="clientsForm" (ngSubmit)="saveClient()">
+<div class="form-section" [formGroup]="clientsForm" novalidate #allClientsForm="ngForm">
+    <h1 class="form-title">New Clients Form</h1>
 
     <ng-container formArrayName="clients">
 
         <ng-container *ngFor="let clientForm of clients.controls; let i = index">
-            <h1>Cliente #{{ i + 1 }}</h1>
 
-            <div class="teste" [formGroupName]="i">
+            <h2>Cliente #{{ i + 1 }}</h2>
+
+            <div [formGroupName]="i">
                 <mat-form-field appearance="fill">
                     <mat-label>Name</mat-label>
                     <input matInput placeholder="Name" formControlName="name" required>
-                    <mat-error *ngIf="clientForm['controls'].name.touched && clientForm['controls'].name.errors?.required">
-                        Enter your name
+                    <mat-error *ngIf="clientForm['controls'].name.invalid">
+                        Enter your name1
                     </mat-error>
-                    <mat-error *ngIf="clientForm['controls'].name.touched && clientForm['controls'].name.errors?.minlength">
-                        Name must have more than 3 letters
+                    <mat-error *ngIf="clientForm['controls'].name.touched">
+                        Enter your name2
                     </mat-error>
-                    <mat-error *ngIf="clientForm['controls'].name.errors?.required">
-                        Enter your name
+                    <mat-error *ngIf="allClientsForm.submitted && clientForm['controls'].name.invalid">
+                        Enter your name3
                     </mat-error>
                 </mat-form-field>
             </div>
-            <button (click)="removeClient(i, clientForm['controls'].name)">Remove</button>
+            <button (click)="removeClient(i, allClientsForm)">Remove</button>
+            <button type="submit" (click)="saveClient(allClientsForm)">Submit</button>
+
         </ng-container>
         
     </ng-container>
     <button (click)="addClient()">Add client</button>
-    <button type="submit">Submit</button>
-</form>
+</div>
 
 
 <!-- 

@@ -8,7 +8,7 @@ import { Client } from 'src/app/models/client.model';
 })
 export class HomeComponent implements OnInit {
 
-  public showClientForm: boolean = true;
+  public showClientForm: boolean = false;
   public showWelcomeMessage: boolean = false;
   public client: Client;
 

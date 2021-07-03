@@ -41,3 +41,8 @@ button {
 .client-name {
     font-weight: 450;
 }
+
+.account-icon {
+    margin-top: -3px;
+    font-size: 48px;
+}

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray, AbstractControl, FormGroupDirective } from '@angular/forms';
 import { Client } from 'src/app/models/client.model';
 import { ClientService } from 'src/app/services/client.service';
@@ -12,18 +12,18 @@ import { SnackBarService } from 'src/app/services/snack-bar.service';
   templateUrl: './client-form.component.html',
   styleUrls: ['./client-form.component.css']
 })
-export class ClientFormComponent implements OnInit {
+export class ClientFormComponent implements OnInit, AfterViewInit {
 
   @Output("close") closeClientForm: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output("success") registerSucceeded: EventEmitter<any> = new EventEmitter<any>();
 
   public client: Client = new Client();
-  public clientForm: FormGroup;
   public isRegistering: boolean = false;
-
+  public disabled: boolean = false;
   public clientsForm = this.formBuilder.group({
     clients: this.formBuilder.array([])
   })
+
   constructor(
     private clientService: ClientService,
     private snackBarService: SnackBarService,
@@ -39,32 +39,35 @@ export class ClientFormComponent implements OnInit {
     this.addClient()
   }
 
+  ngAfterViewInit(): void {
+    this.disabled = this.clientsForm.invalid;
+  }
+
   closeForm(): void {
     this.closeClientForm.emit(true)
   }
 
   addClient(): void {
-
     const clientForm = this.formBuilder.group({
       name: new FormControl(null, [
         Validators.minLength(3)
       ]),
-      mother: new FormControl(null, [
-        Validators.required,
-      ]),
-      email: new FormControl(null, [
-        Validators.email
-      ]),
-      country: new FormControl(null, [
-        Validators.required,
-      ]),
-      city: new FormControl(null, [
-        Validators.required,
-      ]),
-      birth: new FormControl(null, [
-        Validators.required,
-        AgeValidator
-      ]),
+      // mother: new FormControl(null, [
+      //   Validators.required,
+      // ]),
+      // email: new FormControl(null, [
+      //   Validators.email
+      // ]),
+      // country: new FormControl(null, [
+      //   Validators.required,
+      // ]),
+      // city: new FormControl(null, [
+      //   Validators.required,
+      // ]),
+      // birth: new FormControl(null, [
+      //   Validators.required,
+      //   AgeValidator
+      // ]),
     })
     this.clients.push(clientForm);
   }
@@ -73,9 +76,10 @@ export class ClientFormComponent implements OnInit {
     this.clients.removeAt(index)
   }
 
-  saveClient(control: FormGroupDirective): void {
+  saveClient(control: FormGroupDirective, form: AbstractControl): void {
     control.form.markAllAsTouched();
     console.log(control.valid)
+    console.log(form.valid)
     const { clients } = control.value;
     console.log(clients)
     //   const client: Client = new Client(this.clientForm.value.name, this.clientForm.value.email, this.clientForm.value.birth, this.clientForm.value.country, this.clientForm.value.city, this.clientForm.value.mother)

@@ -1,7 +1,7 @@
 <section class="register-section" [formGroup]="clientsForm" novalidate #allClientsForm="ngForm">
     <h1 class="register-title">New Clients Form</h1>
 
-    <ng-container formArrayName="clients">
+    <ng-container formArrayName="clients" *ngIf="!isSubmited; else spinner">
 
         <ng-container *ngFor="let clientForm of clients.controls; let i = index">
             
@@ -39,13 +39,21 @@
             
         </ng-container>
         
-
-    </ng-container>
     <mat-card-actions class="action-buttons">
         <button mat-raised-button matButton color="secondary" (click)="closeForm()">Cancel</button>
         <button mat-raised-button matButton color="secondary" (click)="addClient()">Add Client</button>
-        <button mat-raised-button matButton color="primary" (click)="saveClient(allClientsForm)" [disabled]="clients?.invalid || !allClientsForm.value.lenght">Submit</button>
+        <button mat-raised-button matButton color="primary" (click)="saveClient(allClientsForm)"
+            [disabled]="clients?.invalid">Submit</button>
     </mat-card-actions>
+
+    </ng-container>
+
+    <ng-template #spinner>
+        <section class="spinner-container">
+            <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+            <p class="loading-message">Registering client, please wait.</p>
+        </section>
+    </ng-template>
 
 </section>
 
@@ -123,10 +131,4 @@
         </mat-card-actions>
     </form>
 
-    <ng-template #spinner>
-        <section class="spinner-container">
-            <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-            <p class="loading-message">Registering client, please wait.</p>
-        </section>
-    </ng-template>
 </section> -->

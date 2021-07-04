@@ -12,7 +12,7 @@ export class RegisterConfirmationComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<RegisterConfirmationComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
-      client: Client
+      clients: Client[]
     }
   ) { }
 

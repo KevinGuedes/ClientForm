@@ -17,7 +17,7 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
   @Output("close") closeClientsForm: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output("success") registerSucceeded: EventEmitter<any> = new EventEmitter<any>();
 
-  public isRegistering: boolean = false;
+  public isSubmited: boolean = false;
   public disabled: boolean;
   public clientsForm = this.formBuilder.group({
     clients: this.formBuilder.array([])
@@ -56,10 +56,10 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
 
   addClient(): void {
     const clientForm = this.formBuilder.group({
-      name: new FormControl(null, [
+      name: new FormControl('kevao', [
         Validators.minLength(3)
       ]),
-      mother: new FormControl(null, [
+      mother: new FormControl('ushudhsuads', [
         Validators.required,
       ]),
       // email: new FormControl(null, [
@@ -81,9 +81,27 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
 
   saveClient(allClientsForm: FormGroupDirective): void {
     allClientsForm.form.markAllAsTouched();
-    console.log(this.clients)
     const { clients } = allClientsForm.value;
-    console.log(clients)
+
+    this.isSubmited = true;
+
+    this.dialog
+      .open(RegisterConfirmationComponent, { panelClass: "myClass", data: { clients } })
+      .afterClosed().subscribe(dataConfirmed => {
+        if (dataConfirmed) {
+          this.isSubmited = true;
+
+          this.clientService.insert(clients).subscribe(() => {
+            this.snackBarService.successMessage("Client successfully registered")
+            this.registerSucceeded.emit({ clients, success: true });
+            this.isSubmited = false;
+          });
+        }
+        else {
+          this.snackBarService.warningMessage("Double check the provided data")
+        }
+      })
+
     //   const client: Client = new Client(this.clientForm.value.name, this.clientForm.value.email, this.clientForm.value.birth, this.clientForm.value.country, this.clientForm.value.city, this.clientForm.value.mother)
 
     //   if (this.clientForm.valid) {

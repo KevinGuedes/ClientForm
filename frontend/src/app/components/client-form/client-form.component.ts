@@ -14,7 +14,7 @@ import { SnackBarService } from 'src/app/services/snack-bar.service';
 })
 export class ClientFormComponent implements OnInit, AfterContentChecked {
 
-  @Output("close") closeClientForm: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output("close") closeClientsForm: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output("success") registerSucceeded: EventEmitter<any> = new EventEmitter<any>();
 
   public isRegistering: boolean = false;
@@ -36,16 +36,22 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit(): void {
-    console.log(this.clients)
     this.addClient()
   }
 
   closeForm(): void {
-    this.closeClientForm.emit(true)
+    this.closeClientsForm.emit(true)
   }
 
   ngAfterContentChecked() {
     this.cdRef.detectChanges();
+  }
+
+  removeClient(index: number): void {
+    this.clients.removeAt(index)
+
+    if (!this.clients.value.length)
+      this.closeClientsForm.emit(true)
   }
 
   addClient(): void {
@@ -53,9 +59,9 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
       name: new FormControl(null, [
         Validators.minLength(3)
       ]),
-      // mother: new FormControl(null, [
-      //   Validators.required,
-      // ]),
+      mother: new FormControl(null, [
+        Validators.required,
+      ]),
       // email: new FormControl(null, [
       //   Validators.email
       // ]),
@@ -73,15 +79,11 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
     this.clients.push(clientForm);
   }
 
-  removeClient(index: number): void {
-    this.clients.removeAt(index)
-  }
-
-  saveClient(control: FormGroupDirective, form: AbstractControl): void {
-    control.form.markAllAsTouched();
+  saveClient(allClientsForm: FormGroupDirective): void {
+    allClientsForm.form.markAllAsTouched();
     console.log(this.clients)
-    console.log(form)
-    const { clients } = control.value;
+    const { clients } = allClientsForm.value;
+    console.log(clients)
     //   const client: Client = new Client(this.clientForm.value.name, this.clientForm.value.email, this.clientForm.value.birth, this.clientForm.value.country, this.clientForm.value.city, this.clientForm.value.mother)
 
     //   if (this.clientForm.valid) {

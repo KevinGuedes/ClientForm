@@ -19,6 +19,14 @@
                             Name must have more than 3 characters
                         </mat-error>
                     </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                        <mat-label>Mother Name</mat-label>
+                        <input matInput placeholder="Mother Name" formControlName="mother" name="mother" required>
+                        <mat-error *ngIf="clientForm['controls']?.mother.hasError('required') && clientForm['controls']?.mother.touched">
+                            Enter your mother name
+                        </mat-error>
+                    </mat-form-field>
                 
                 </form>
                 
@@ -34,8 +42,9 @@
 
     </ng-container>
     <mat-card-actions class="action-buttons">
+        <button mat-raised-button matButton color="secondary" (click)="closeForm()">Cancel</button>
         <button mat-raised-button matButton color="secondary" (click)="addClient()">Add Client</button>
-        <button mat-raised-button matButton color="primary" (click)="saveClient(allClientsForm, clientsForm)" [disabled]="clients?.invalid">Submit</button>
+        <button mat-raised-button matButton color="primary" (click)="saveClient(allClientsForm)" [disabled]="clients?.invalid || !allClientsForm.value.lenght">Submit</button>
     </mat-card-actions>
 
 </section>
@@ -66,7 +75,7 @@
             <mat-label>Email</mat-label>
             <input matInput placeholder="Email" formControlName="email" name="email"
                 required>
-            <mat-error *ngIf="formControl.email.touched && formControl.email.invalid">
+            <mat-error *ngIf="clientForm['controls']?.email.touched && clientForm['controls']?.email.invalid">
                 Enter your email
             </mat-error>
         </mat-form-field>

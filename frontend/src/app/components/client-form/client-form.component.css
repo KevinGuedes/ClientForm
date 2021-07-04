@@ -8,6 +8,7 @@
 .register-title {
     font-size: 1.6rem;
     font-weight: 450;
+    margin-bottom: 1.6rem;
 }
 
 .client-form {
@@ -78,9 +79,12 @@ button {
 }
 
 .form-container {
-    margin-top: 1.6rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
+}
+
+.form-container+.form-container {
+    margin-top: 1.6rem;
 }

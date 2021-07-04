@@ -35,7 +35,7 @@
     </ng-container>
     <mat-card-actions class="action-buttons">
         <button mat-raised-button matButton color="secondary" (click)="addClient()">Add Client</button>
-        <button mat-raised-button matButton color="primary" (click)="saveClient(allClientsForm, clientsForm)" [disabled]="false">Submit</button>
+        <button mat-raised-button matButton color="primary" (click)="saveClient(allClientsForm, clientsForm)" [disabled]="clients?.invalid">Submit</button>
     </mat-card-actions>
 
 </section>

@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, AfterViewInit, AfterContentChecked, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray, AbstractControl, FormGroupDirective } from '@angular/forms';
 import { Client } from 'src/app/models/client.model';
 import { ClientService } from 'src/app/services/client.service';
@@ -12,14 +12,13 @@ import { SnackBarService } from 'src/app/services/snack-bar.service';
   templateUrl: './client-form.component.html',
   styleUrls: ['./client-form.component.css']
 })
-export class ClientFormComponent implements OnInit, AfterViewInit {
+export class ClientFormComponent implements OnInit, AfterContentChecked {
 
   @Output("close") closeClientForm: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output("success") registerSucceeded: EventEmitter<any> = new EventEmitter<any>();
 
-  public client: Client = new Client();
   public isRegistering: boolean = false;
-  public disabled: boolean = false;
+  public disabled: boolean;
   public clientsForm = this.formBuilder.group({
     clients: this.formBuilder.array([])
   })
@@ -28,7 +27,8 @@ export class ClientFormComponent implements OnInit, AfterViewInit {
     private clientService: ClientService,
     private snackBarService: SnackBarService,
     private dialog: MatDialog,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private cdRef: ChangeDetectorRef
   ) { }
 
   get clients() {
@@ -36,15 +36,16 @@ export class ClientFormComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    console.log(this.clients)
     this.addClient()
-  }
-
-  ngAfterViewInit(): void {
-    this.disabled = this.clientsForm.invalid;
   }
 
   closeForm(): void {
     this.closeClientForm.emit(true)
+  }
+
+  ngAfterContentChecked() {
+    this.cdRef.detectChanges();
   }
 
   addClient(): void {
@@ -78,10 +79,9 @@ export class ClientFormComponent implements OnInit, AfterViewInit {
 
   saveClient(control: FormGroupDirective, form: AbstractControl): void {
     control.form.markAllAsTouched();
-    console.log(control.valid)
-    console.log(form.valid)
+    console.log(this.clients)
+    console.log(form)
     const { clients } = control.value;
-    console.log(clients)
     //   const client: Client = new Client(this.clientForm.value.name, this.clientForm.value.email, this.clientForm.value.birth, this.clientForm.value.country, this.clientForm.value.city, this.clientForm.value.mother)
 
     //   if (this.clientForm.valid) {

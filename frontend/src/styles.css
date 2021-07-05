@@ -30,8 +30,8 @@ input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:foc
     color: #fff;
 }
 
-.myClass {
-    height: 70%;
+.dialog-confirmation {
+    height: 69%;
     width: 620px;
     overflow-y: hidden;
 }

@@ -83,10 +83,8 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
     allClientsForm.form.markAllAsTouched();
     const { clients } = allClientsForm.value;
 
-    this.isSubmited = true;
-
     this.dialog
-      .open(RegisterConfirmationComponent, { panelClass: "myClass", data: { clients } })
+      .open(RegisterConfirmationComponent, { panelClass: "dialog-confirmation", data: { clients }, autoFocus: false })
       .afterClosed().subscribe(dataConfirmed => {
         if (dataConfirmed) {
           this.isSubmited = true;

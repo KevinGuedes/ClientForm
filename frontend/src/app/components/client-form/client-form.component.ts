@@ -35,6 +35,27 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
     return this.clientsForm.controls["clients"] as FormArray;
   }
 
+  showErrorMessage() {
+    let showErrorMessage = false;
+
+    const controls = this.clients.controls.map(element => element['controls'])
+
+    controls.forEach(element => {
+      Object.entries(element).forEach(([key, value]) => console.log(`${key}: ${value}`))
+    })
+
+    // controls.forEach(element => {
+    //   let keys = Object.keys(element)
+
+    //   for (let key of keys) {
+    //     if (element[key].touched && element[key].invalid)
+    //       showErrorMessage = true;
+    //   }
+    // })
+
+    return showErrorMessage
+  }
+
   ngOnInit(): void {
     this.addClient()
   }
@@ -43,7 +64,7 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
     this.closeClientsForm.emit(true)
   }
 
-  ngAfterContentChecked() {
+  ngAfterContentChecked(): void {
     this.cdRef.detectChanges();
   }
 
@@ -56,49 +77,51 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
 
   addClient(): void {
     const clientForm = this.formBuilder.group({
-      name: new FormControl('kevao', [
+      name: new FormControl(null, [
         Validators.minLength(3)
       ]),
-      mother: new FormControl('ushudhsuads', [
+      mother: new FormControl(null, [
         Validators.required,
       ]),
-      // email: new FormControl(null, [
-      //   Validators.email
-      // ]),
-      // country: new FormControl(null, [
-      //   Validators.required,
-      // ]),
-      // city: new FormControl(null, [
-      //   Validators.required,
-      // ]),
-      // birth: new FormControl(null, [
-      //   Validators.required,
-      //   AgeValidator
-      // ]),
+      email: new FormControl(null, [
+        Validators.email
+      ]),
+      country: new FormControl(null, [
+        Validators.required,
+      ]),
+      city: new FormControl(null, [
+        Validators.required,
+      ]),
+      birth: new FormControl(null, [
+        Validators.required,
+        AgeValidator
+      ]),
     })
     this.clients.push(clientForm);
   }
 
-  saveClient(allClientsForm: FormGroupDirective): void {
-    allClientsForm.form.markAllAsTouched();
-    const { clients } = allClientsForm.value;
+  saveClient(allClientsForm: FormArray): void {
+    this.clients.markAllAsTouched();
+    // console.log(allClientsForm)
+    // allClientsForm.form.markAllAsTouched();
+    // const { clients } = allClientsForm.value;
 
-    this.dialog
-      .open(RegisterConfirmationComponent, { panelClass: "dialog-confirmation", data: { clients }, autoFocus: false })
-      .afterClosed().subscribe(dataConfirmed => {
-        if (dataConfirmed) {
-          this.isSubmited = true;
+    // this.dialog
+    //   .open(RegisterConfirmationComponent, { panelClass: "dialog-confirmation", data: { clients }, autoFocus: false })
+    //   .afterClosed().subscribe(dataConfirmed => {
+    //     if (dataConfirmed) {
+    //       this.isSubmited = true;
 
-          this.clientService.insert(clients).subscribe(() => {
-            this.snackBarService.successMessage("Client successfully registered")
-            this.registerSucceeded.emit({ clients, success: true });
-            this.isSubmited = false;
-          });
-        }
-        else {
-          this.snackBarService.warningMessage("Double check the provided data")
-        }
-      })
+    //       this.clientService.insert(clients).subscribe(() => {
+    //         this.snackBarService.successMessage("Client successfully registered")
+    //         this.registerSucceeded.emit({ clients, success: true });
+    //         this.isSubmited = false;
+    //       });
+    //     }
+    //     else {
+    //       this.snackBarService.warningMessage("Double check the provided data")
+    //     }
+    //   })
 
     //   const client: Client = new Client(this.clientForm.value.name, this.clientForm.value.email, this.clientForm.value.birth, this.clientForm.value.country, this.clientForm.value.city, this.clientForm.value.mother)
 

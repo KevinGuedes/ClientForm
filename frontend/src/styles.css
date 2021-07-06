@@ -21,12 +21,12 @@ input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:foc
 }
 
 .msg-error {
-    background-color: rgb(227, 94, 107);
+    background-color: #e35e6b;
     color: #fff;
 }
 
 .msg-warning {
-    background-color: rgb(253, 220, 31);
+    background-color: #fddc1f;
     color: #fff;
 }
 

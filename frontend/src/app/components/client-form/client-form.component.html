@@ -82,14 +82,14 @@
         </ng-container>
         
     <p *ngIf="showErrorMessage" class="error-message">
-        Some field(s) is invalid. Please verify the data you provided.
+        Please verify the data you provided.
     </p>
     <mat-card-actions [ngClass]="showErrorMessage ? 'action-buttons-error' : 'action-buttons'">
         <button mat-raised-button matButton color="secondary" (click)="closeForm()">Cancel</button>
         <button mat-raised-button matButton color="secondary" (click)="addClient()">Add Client</button>
         <button mat-raised-button matButton color="primary" (click)="saveClient(clients)"
             [disabled]="clients?.invalid">Submit</button>
-            <button (click)="showErrorMessage()">show</button>
+            <!-- <button (click)="showErrorMessage()">show</button> -->
     </mat-card-actions>
 
     </ng-container>

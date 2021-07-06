@@ -35,25 +35,21 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
     return this.clientsForm.controls["clients"] as FormArray;
   }
 
-  showErrorMessage() {
-    let showErrorMessage = false;
-
+  get showErrorMessage() {
     const controls = this.clients.controls.map(element => element['controls'])
 
-    controls.forEach(element => {
-      Object.entries(element).forEach(([key, value]) => console.log(`${key}: ${value}`))
+    let showErrorMessage = controls.map(element => {
+      let keys = Object.keys(element)
+
+      for (let key of keys) {
+        if (element[key].touched && element[key].invalid)
+          return true;
+      }
+
+      return false
     })
 
-    // controls.forEach(element => {
-    //   let keys = Object.keys(element)
-
-    //   for (let key of keys) {
-    //     if (element[key].touched && element[key].invalid)
-    //       showErrorMessage = true;
-    //   }
-    // })
-
-    return showErrorMessage
+    return showErrorMessage.some(value => value == true)
   }
 
   ngOnInit(): void {

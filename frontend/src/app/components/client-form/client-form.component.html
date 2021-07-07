@@ -38,6 +38,9 @@
                         <mat-error *ngIf="clientForm['controls']?.email.hasError('required') && clientForm['controls']?.email.touched">
                             Enter your email
                         </mat-error>
+                        <mat-error *ngIf="clientForm['controls']?.email.hasError('email') && clientForm['controls']?.email.touched">
+                            Enter a valid email
+                        </mat-error>
                     </mat-form-field>
 
                     <mat-form-field appearance="fill">

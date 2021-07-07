@@ -79,19 +79,19 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
 
   addClient(): void {
     const clientForm = this.formBuilder.group({
-      name: new FormControl("kevin", [
+      name: new FormControl(null, [
         Validators.minLength(3)
       ]),
-      mother: new FormControl("kevin", [
+      mother: new FormControl(null, [
         Validators.required,
       ]),
-      email: new FormControl("kevin@mail.com", [
+      email: new FormControl(null, [
         Validators.email
       ]),
-      country: new FormControl("kevin", [
+      country: new FormControl(null, [
         Validators.required,
       ]),
-      city: new FormControl("kevin", [
+      city: new FormControl(null, [
         Validators.required,
       ]),
       birth: new FormControl(null, [

@@ -7,7 +7,7 @@ import { SnackBarComponent } from '../components/snack-bar/snack-bar.component';
 })
 export class SnackBarService {
 
-  duration: number = 30000;
+  duration: number = 3000;
 
   constructor(public snackBar: MatSnackBar) { }
 

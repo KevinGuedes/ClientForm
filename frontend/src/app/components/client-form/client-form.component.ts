@@ -1,53 +1,97 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, OnInit, AfterContentChecked, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { FormControl, Validators, FormBuilder, FormArray, AbstractControl } from '@angular/forms';
 import { Client } from 'src/app/models/client.model';
 import { ClientService } from 'src/app/services/client.service';
 import { AgeValidator } from 'src/app/tools/validators/ageValidator';
 import { MatDialog } from '@angular/material/dialog';
 import { RegisterConfirmationComponent } from 'src/app/components/dialogs/register-confirmation/register-confirmation.component';
 import { SnackBarService } from 'src/app/services/snack-bar.service';
+import { sleepForSeconds } from 'src/app/tools/sleepForSeconds';
 
 @Component({
   selector: 'app-client-form',
   templateUrl: './client-form.component.html',
   styleUrls: ['./client-form.component.css']
 })
-export class ClientFormComponent implements OnInit {
+export class ClientFormComponent implements OnInit, AfterContentChecked {
 
-  @Output("close") closeClientForm: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output("close") closeClientsForm: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output("success") registerSucceeded: EventEmitter<any> = new EventEmitter<any>();
 
-  public client: Client = new Client();
-  public clientForm: FormGroup;
-  public isRegistering: boolean = false;
+  public spinnerPercentage: number = 0;
+  public isSubmited: boolean = false;
+  public disabled: boolean;
+  public clientsForm = this.formBuilder.group({
+    clients: this.formBuilder.array([])
+  })
 
   constructor(
     private clientService: ClientService,
     private snackBarService: SnackBarService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private formBuilder: FormBuilder,
+    private cdRef: ChangeDetectorRef
   ) { }
 
-  get formControl() {
-    return this.clientForm.controls;
+  get clients() {
+    return this.clientsForm.controls["clients"] as FormArray;
+  }
+
+  get showErrorMessage() {
+    const controls: AbstractControl[] = this.clients.controls.map(element => element['controls'])
+
+    let showErrorMessage: boolean[] = controls.map(element => {
+      let keys: string[] = Object.keys(element)
+
+      for (let key of keys) {
+        if (element[key].touched && element[key].invalid)
+          return true;
+      }
+
+      return false
+    })
+
+    return showErrorMessage.some(value => value == true)
+  }
+
+  get spinnerProgress() {
+    return this.spinnerPercentage
   }
 
   ngOnInit(): void {
-    this.clientForm = new FormGroup({
-      name: new FormControl(null, [
-        Validators.required,
+    this.addClient()
+  }
+
+  closeForm(): void {
+    this.closeClientsForm.emit(true)
+  }
+
+  ngAfterContentChecked(): void {
+    this.cdRef.detectChanges();
+  }
+
+  removeClient(index: number): void {
+    this.clients.removeAt(index)
+
+    if (!this.clients.value.length)
+      this.closeClientsForm.emit(true)
+  }
+
+  addClient(): void {
+    const clientForm = this.formBuilder.group({
+      name: new FormControl("kevin", [
         Validators.minLength(3)
       ]),
-      mother: new FormControl(null, [
+      mother: new FormControl("kevin", [
         Validators.required,
       ]),
-      email: new FormControl(null, [
-        Validators.required,
+      email: new FormControl("kevin@mail.com", [
         Validators.email
       ]),
-      country: new FormControl(null, [
+      country: new FormControl("kevin", [
         Validators.required,
       ]),
-      city: new FormControl(null, [
+      city: new FormControl("kevin", [
         Validators.required,
       ]),
       birth: new FormControl(null, [
@@ -55,36 +99,53 @@ export class ClientFormComponent implements OnInit {
         AgeValidator
       ]),
     })
-  }
-
-  closeForm(): void {
-    this.closeClientForm.emit(true)
+    this.clients.push(clientForm);
   }
 
   saveClient(): void {
-    const client: Client = new Client(this.clientForm.value.name, this.clientForm.value.email, this.clientForm.value.birth, this.clientForm.value.country, this.clientForm.value.city, this.clientForm.value.mother)
+    this.clients.markAllAsTouched();
+    const clients: Client[] = this.clients.value.map((client: any) => new Client(client));
 
-    if (this.clientForm.valid) {
+    this.dialog
+      .open(RegisterConfirmationComponent, { panelClass: "dialog-confirmation", data: { clients }, autoFocus: false })
+      .afterClosed().subscribe(dataConfirmed => {
+        if (dataConfirmed) {
+          this.isSubmited = true;
+          this.registerClients(clients);
+        }
+        else
+          this.snackBarService.warningMessage("Double check the provided data")
+      })
+  }
 
-      this.dialog
-        .open(RegisterConfirmationComponent, { width: "40%", data: { client } })
-        .afterClosed().subscribe(dataConfirmed => {
+  private async registerClients(clients: Client[]): Promise<void> {
+    let clientsRegistered: number = 0;
+    let registerSucceeded: boolean = false;
 
-          if (dataConfirmed) {
-            this.isRegistering = true;
+    for (let client of clients) {
+      await sleepForSeconds();
 
-            this.clientService.insert(client).subscribe(() => {
-              this.snackBarService.successMessage("Client successfully registered")
-              this.registerSucceeded.emit({ client: client, success: true });
-              this.isRegistering = false;
-            });
-          }
-          else {
-            this.snackBarService.warningMessage("Double check the provided data")
-          }
-
+      await this.clientService.insert(client)
+        .then(data => {
+          clientsRegistered++;
+          this.calculateSpinnerPercentage(clientsRegistered, clients.length)
+          registerSucceeded = true;
         })
-
+        .catch(error => {
+          console.error(error.message)
+          this.isSubmited = false;
+          registerSucceeded = false;
+        })
     }
+
+    if (registerSucceeded) {
+      await sleepForSeconds();
+      this.snackBarService.successMessage("Client successfully registered")
+      this.registerSucceeded.emit({ client: clients, success: true });
+    }
+  }
+
+  private calculateSpinnerPercentage(actual: number, total: number): void {
+    this.spinnerPercentage = (actual / total) * 100;
   }
 }

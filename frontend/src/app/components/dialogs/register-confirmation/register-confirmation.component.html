@@ -1,19 +1,28 @@
-<h1 mat-dialog-title class="title">Confirm Your Data</h1>
+<section class="dialog-container">
+    <h1 mat-dialog-title class="title">Confirm Your Data</h1>
+    
+    <mat-divider></mat-divider>
+    <section *ngFor="let client of data.clients; let i = index;">
+        <h2 *ngIf="i == 0; else secondaryClient" class="client-title">Account Owner</h2>
+        
+        <ng-template #secondaryClient>
+            <h2 class="client-title">Account Holder #{{ i }}</h2>
+        </ng-template>
 
-<mat-divider></mat-divider>
+        <section mat-dialog-content class="client-data">
+            <p>Name: <strong>{{ client.name }}</strong></p>
+            <p>Mother: <strong>{{ client.mother }}</strong></p>
+            <p>Email: <strong>{{ client.email }}</strong></p>
+            <p>Country: <strong>{{ client.country }}</strong></p>
+            <p>City: <strong>{{ client.city }}</strong></p>
+            <p>Birth Date: <strong>{{ client.birth | date: 'dd/MM/yyyy' }}</strong></p>
+        </section>
+        <mat-divider></mat-divider>
+    </section>
+    
+    <section mat-dialog-actions class="action-buttons" align="center">
+        <button type="button" mat-raised-button mat-dialog-close color="secondary">Cancel</button>
+        <button type="button" mat-raised-button [mat-dialog-close]="true" color="primary">Confirm</button>
+    </section>
 
-<section mat-dialog-content class="client-data">
-    <p>Name: <strong>{{ data.client.name }}</strong></p>
-    <p>Mother: <strong>{{ data.client.mother }}</strong></p>
-    <p>Email: <strong>{{ data.client.email }}</strong></p>
-    <p>Country: <strong>{{ data.client.country }}</strong></p>
-    <p>City: <strong>{{ data.client.city }}</strong></p>
-    <p>Birth Date: <strong>{{ data.client.birth | date: 'dd/MM/yyyy' }}</strong></p>
-</section>
-
-<mat-divider></mat-divider>
-
-<section mat-dialog-actions align="center">
-    <button mat-raised-button mat-dialog-close color="secondary">Cancel</button>
-    <button mat-raised-button [mat-dialog-close]="true" color="primary">Confirm</button>
 </section>

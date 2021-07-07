@@ -7,12 +7,12 @@ export class Client {
     city: string;
     mother: string;
 
-    constructor(name?: string, email?: string, birth?: Date, country?: string, city?: string, mother?: string) {
-        this.name = name;
-        this.email = email;
-        this.birth = birth;
-        this.country = country;
-        this.city = city;
-        this.mother = mother;
+    constructor(data?: any) {
+        this.name = data.name;
+        this.email = data.email;
+        this.birth = data.birth;
+        this.country = data.country;
+        this.city = data.city;
+        this.mother = data.mother;
     }
 }

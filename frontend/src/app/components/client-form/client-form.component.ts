@@ -1,5 +1,5 @@
-import { Component, OnInit, AfterViewInit, AfterContentChecked, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder, FormArray, AbstractControl, FormGroupDirective } from '@angular/forms';
+import { Component, OnInit, AfterContentChecked, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { FormControl, Validators, FormBuilder, FormArray, AbstractControl } from '@angular/forms';
 import { Client } from 'src/app/models/client.model';
 import { ClientService } from 'src/app/services/client.service';
 import { AgeValidator } from 'src/app/tools/validators/ageValidator';
@@ -17,6 +17,7 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
   @Output("close") closeClientsForm: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output("success") registerSucceeded: EventEmitter<any> = new EventEmitter<any>();
 
+  public spinnerPercentage: number = 0;
   public isSubmited: boolean = false;
   public disabled: boolean;
   public clientsForm = this.formBuilder.group({
@@ -36,10 +37,10 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
   }
 
   get showErrorMessage() {
-    const controls = this.clients.controls.map(element => element['controls'])
+    const controls: AbstractControl[] = this.clients.controls.map(element => element['controls'])
 
-    let showErrorMessage = controls.map(element => {
-      let keys = Object.keys(element)
+    let showErrorMessage: boolean[] = controls.map(element => {
+      let keys: string[] = Object.keys(element)
 
       for (let key of keys) {
         if (element[key].touched && element[key].invalid)
@@ -50,6 +51,10 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
     })
 
     return showErrorMessage.some(value => value == true)
+  }
+
+  get spinnerProgress() {
+    return this.spinnerPercentage
   }
 
   ngOnInit(): void {
@@ -73,19 +78,19 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
 
   addClient(): void {
     const clientForm = this.formBuilder.group({
-      name: new FormControl(null, [
+      name: new FormControl("kevin", [
         Validators.minLength(3)
       ]),
-      mother: new FormControl(null, [
+      mother: new FormControl("kevin", [
         Validators.required,
       ]),
-      email: new FormControl(null, [
+      email: new FormControl("kevin@mail.com", [
         Validators.email
       ]),
-      country: new FormControl(null, [
+      country: new FormControl("kevin", [
         Validators.required,
       ]),
-      city: new FormControl(null, [
+      city: new FormControl("kevin", [
         Validators.required,
       ]),
       birth: new FormControl(null, [
@@ -100,49 +105,51 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
     this.clients.markAllAsTouched();
     const clients: Client[] = this.clients.value.map((client: any) => new Client(client));
 
-    // this.dialog
-    //   .open(RegisterConfirmationComponent, { panelClass: "dialog-confirmation", data: { clients }, autoFocus: false })
-    //   .afterClosed().subscribe(dataConfirmed => {
-    //     if (dataConfirmed) {
-    //       this.isSubmited = true;
-
-    //       this.clientService.insert(clients).subscribe(() => {
-    //         this.snackBarService.successMessage("Client successfully registered")
-    //         this.registerSucceeded.emit({ clients, success: true });
-    //         this.isSubmited = false;
-    //       });
-    //     }
-    //     else
-    //       this.snackBarService.warningMessage("Double check the provided data")
-    //   })
-
-    //   const client: Client = new Client(this.clientForm.value.name, this.clientForm.value.email, this.clientForm.value.birth, this.clientForm.value.country, this.clientForm.value.city, this.clientForm.value.mother)
-
-    //   if (this.clientForm.valid) {
-
-    //     this.dialog
-    //       .open(RegisterConfirmationComponent, { width: "40%", data: { client } })
-    //       .afterClosed().subscribe(dataConfirmed => {
-
-    //         if (dataConfirmed) {
-    //           this.isRegistering = true;
-
-    //           this.clientService.insert(client).subscribe(() => {
-    //             this.snackBarService.successMessage("Client successfully registered")
-    //             this.registerSucceeded.emit({ client: client, success: true });
-    //             this.isRegistering = false;
-    //           });
-    //         }
-    //         else {
-    //           this.snackBarService.warningMessage("Double check the provided data")
-    //         }
-
-    //       })
-
-    //   }
+    this.dialog
+      .open(RegisterConfirmationComponent, { panelClass: "dialog-confirmation", data: { clients }, autoFocus: false })
+      .afterClosed().subscribe(dataConfirmed => {
+        if (dataConfirmed) {
+          this.isSubmited = true;
+          this.registerClients(clients);
+        }
+        else
+          this.snackBarService.warningMessage("Double check the provided data")
+      })
   }
 
-  private registerClients(): boolean {
-    return true;
+  private async registerClients(clients: Client[]): Promise<void> {
+    let clientsRegistered: number = 0;
+    let registerSucceeded: boolean = false;
+
+    for (let client of clients) {
+      await this.sleepForSeconds();
+
+      await this.clientService.insert(client)
+        .then(data => {
+          clientsRegistered++;
+          this.calculateSpinnerPercentage(clientsRegistered, clients.length)
+          registerSucceeded = true;
+        })
+        .catch(error => {
+          console.error(error.message)
+          this.isSubmited = false;
+          registerSucceeded = false;
+        })
+    }
+
+    if (registerSucceeded) {
+      await this.sleepForSeconds();
+      this.snackBarService.successMessage("Client successfully registered")
+      this.registerSucceeded.emit({ client: clients, success: true });
+    }
+  }
+
+  private calculateSpinnerPercentage(actual: number, total: number): void {
+    this.spinnerPercentage = (actual / total) * 100;
+  }
+
+  private sleepForSeconds(seconds: number = 0.5): Promise<any> {
+    //Yes, this function was made just foy you to see my beautiful spinner progress
+    return new Promise(resolve => setTimeout(resolve, seconds * 1000));
   }
 }

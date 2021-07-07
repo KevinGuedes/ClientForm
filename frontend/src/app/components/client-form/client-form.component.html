@@ -1,5 +1,5 @@
 <section class="register-section" [formGroup]="clientsForm">
-    <h1 class="register-title">New Clients Form</h1>
+    <h1 class="register-title">New Account Form</h1>
 
     <ng-container formArrayName="clients" *ngIf="!isSubmited; else spinner">
 
@@ -7,7 +7,11 @@
             
             <section class="form-container">
                 <form class="client-form" [formGroupName]="i">
-                    <h2 class="client-title">Client #{{ i + 1 }}</h2>
+                    <h2 *ngIf="i == 0; else secondaryClient" class="client-title">Account Owner</h2>
+
+                    <ng-template #secondaryClient>
+                        <h2 class="client-title">Account Holder #{{ i }}</h2>
+                    </ng-template>
                 
                     <mat-form-field appearance="fill">
                         <mat-label>Name</mat-label>
@@ -81,10 +85,11 @@
             
         </ng-container>
         
-    <section class="messages-container">
+    <section *ngIf="clients.invalid" class="messages-container">
         <p *ngIf="showErrorMessage" class="error-message">
             Please verify the data you provided.
         </p>
+
         <p *ngIf="clients.invalid && !showErrorMessage" class="provide-data-message">
             Provide the required data to allow submission
         </p>
@@ -101,8 +106,9 @@
 
     <ng-template #spinner>
         <section class="spinner-container">
-            <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-            <p class="loading-message">Registering client, please wait.</p>
+            <mat-progress-spinner [value]="spinnerProgress" mode="determinate" aria-label="Rating"></mat-progress-spinner>
+            <p class="rating">{{ spinnerProgress.toFixed(0) }}%</p>
+            <p class="loading-message">Registering client(s), please wait.</p>
         </section>
     </ng-template>
 

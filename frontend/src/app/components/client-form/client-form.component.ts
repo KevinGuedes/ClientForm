@@ -6,6 +6,7 @@ import { AgeValidator } from 'src/app/tools/validators/ageValidator';
 import { MatDialog } from '@angular/material/dialog';
 import { RegisterConfirmationComponent } from 'src/app/components/dialogs/register-confirmation/register-confirmation.component';
 import { SnackBarService } from 'src/app/services/snack-bar.service';
+import { sleepForSeconds } from 'src/app/tools/sleepForSeconds';
 
 @Component({
   selector: 'app-client-form',
@@ -122,7 +123,7 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
     let registerSucceeded: boolean = false;
 
     for (let client of clients) {
-      await this.sleepForSeconds();
+      await sleepForSeconds();
 
       await this.clientService.insert(client)
         .then(data => {
@@ -138,7 +139,7 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
     }
 
     if (registerSucceeded) {
-      await this.sleepForSeconds();
+      await sleepForSeconds();
       this.snackBarService.successMessage("Client successfully registered")
       this.registerSucceeded.emit({ client: clients, success: true });
     }
@@ -146,10 +147,5 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
 
   private calculateSpinnerPercentage(actual: number, total: number): void {
     this.spinnerPercentage = (actual / total) * 100;
-  }
-
-  private sleepForSeconds(seconds: number = 0.5): Promise<any> {
-    //Yes, this function was made just foy you to see my beautiful spinner progress
-    return new Promise(resolve => setTimeout(resolve, seconds * 1000));
   }
 }

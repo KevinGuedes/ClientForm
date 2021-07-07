@@ -81,16 +81,21 @@
             
         </ng-container>
         
-    <p *ngIf="showErrorMessage" class="error-message">
-        Please verify the data you provided.
-    </p>
-    <mat-card-actions [ngClass]="showErrorMessage ? 'action-buttons-error' : 'action-buttons'">
+    <section class="messages-container">
+        <p *ngIf="showErrorMessage" class="error-message">
+            Please verify the data you provided.
+        </p>
+        <p *ngIf="clients.invalid && !showErrorMessage" class="provide-data-message">
+            Provide the required data to allow submission
+        </p>
+    </section>
+
+    <mat-card-footer class="card-footer">
         <button mat-raised-button matButton color="secondary" (click)="closeForm()">Cancel</button>
         <button mat-raised-button matButton color="secondary" (click)="addClient()">Add Client</button>
-        <button mat-raised-button matButton color="primary" (click)="saveClient(clients)"
-            [disabled]="clients?.invalid">Submit</button>
-            <!-- <button (click)="showErrorMessage()">show</button> -->
-    </mat-card-actions>
+        <button mat-raised-button matButton color="primary" (click)="saveClient()" [disabled]="clients.invalid">Submit</button>
+        <!-- <button (click)="showErrorMessage()">show</button> -->
+    </mat-card-footer>
 
     </ng-container>
 
@@ -102,79 +107,3 @@
     </ng-template>
 
 </section>
-
-
-<!-- 
-    <h1 class="form-title">New Client Form</h1>
-
-    <form *ngIf="!isRegistering; else spinner" class="customer-form" [formGroup]="clientForm" (ngSubmit)="saveClient()">
-        <mat-form-field appearance="fill">
-            <mat-label>Name</mat-label>
-            <input matInput placeholder="Name" formControlName="name" name="name" required>
-            <mat-error *ngIf="formControl.name.touched && formControl.name.invalid">
-                Enter your full name
-            </mat-error>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-            <mat-label>Mother Name</mat-label>
-            <input matInput placeholder="Mother Name" formControlName="mother" name="mother"
-                required>
-            <mat-error *ngIf="formControl.mother.touched && formControl.mother.invalid">
-                Enter your mother name
-            </mat-error>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-            <mat-label>Email</mat-label>
-            <input matInput placeholder="Email" formControlName="email" name="email"
-                required>
-            <mat-error *ngIf="clientForm['controls']?.email.touched && clientForm['controls']?.email.invalid">
-                Enter your email
-            </mat-error>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-            <mat-label>Country</mat-label>
-            <input matInput placeholder="Country" formControlName="country" name="country"
-                required>
-            <mat-error *ngIf="formControl.country.touched && formControl.country.invalid">
-                Enter your home country
-            </mat-error>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-            <mat-label>City</mat-label>
-            <input matInput placeholder="Email" formControlName="city" name="city" required
-                autocomplete="false">
-            <mat-error *ngIf="formControl.city.touched && formControl.city.invalid">
-                Enter your home city
-            </mat-error>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill" class="date-input">
-            <mat-label>Birth Date</mat-label>
-            <input matInput [matDatepicker]="datepicker" formControlName="birth" name="birth"
-                required autocomplete="false">
-            <mat-error *ngIf="formControl.birth.touched && formControl.birth.errors?.required">
-                Enter your birth date
-            </mat-error>
-            <mat-error *ngIf="formControl.birth.touched &&  formControl.birth.errors?.age">
-                You must be over 18 years old to create an account
-            </mat-error>
-            <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
-            <mat-datepicker #datepicker>
-                <mat-datepicker-actions>
-                    <button mat-button matDatepickerCancel>Cancel</button>
-                    <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
-                </mat-datepicker-actions>
-            </mat-datepicker>
-        </mat-form-field> 
-
-        <mat-card-actions class="action-buttons">
-            <button mat-raised-button matButton color="secondary" (click)="closeForm()" type="button">Cancel</button>
-            <button mat-raised-button matButton color="primary" [disabled]="clientForm.invalid" type="submit">Submit</button>
-        </mat-card-actions>
-    </form>
-
-</section> -->

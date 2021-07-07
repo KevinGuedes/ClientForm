@@ -8,9 +8,9 @@ import { Client } from 'src/app/models/client.model';
 })
 export class HomeComponent implements OnInit {
 
-  public showClientForm: boolean = true;
+  public showClientForm: boolean = false;
   public showWelcomeMessage: boolean = false;
-  public client: Client;
+  public clients: Client[];
 
   constructor() { }
 
@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit {
   }
 
   welcomeMessage(event: any): void {
-    this.client = event.clients;
+    this.clients = event.clients;
     this.showWelcomeMessage = true;
     this.showClientForm = false;
   }

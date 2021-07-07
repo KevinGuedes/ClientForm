@@ -70,12 +70,6 @@ button {
     margin: 0;
 }
 
-.action-buttons-error {
-    display: flex;
-    justify-content: center;
-    margin: 0;
-}
-
 .forms-container {
     margin-bottom: 5rem;
 }
@@ -96,10 +90,24 @@ button {
     margin-top: 1.6rem;
 }
 
-.error-message {
-    text-align: center;
+.messages-container {
     max-width: 50%;
     padding-top: 1.6rem;
-    color: #e35e6b;
     font-size: 1rem;
+    margin: 0;
+    text-align: center;
+}
+
+.error-message {
+    color: #e35e6b;
+    margin: 0;
+}
+
+.provide-data-message {
+    color: #aeadae;
+    margin: 0;
+}
+
+.card-footer {
+    padding: 1.6rem 0;
 }

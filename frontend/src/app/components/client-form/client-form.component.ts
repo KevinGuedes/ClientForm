@@ -96,11 +96,9 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
     this.clients.push(clientForm);
   }
 
-  saveClient(allClientsForm: FormArray): void {
+  saveClient(): void {
     this.clients.markAllAsTouched();
-    // console.log(allClientsForm)
-    // allClientsForm.form.markAllAsTouched();
-    // const { clients } = allClientsForm.value;
+    const clients: Client[] = this.clients.value.map((client: any) => new Client(client));
 
     // this.dialog
     //   .open(RegisterConfirmationComponent, { panelClass: "dialog-confirmation", data: { clients }, autoFocus: false })
@@ -114,9 +112,8 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
     //         this.isSubmited = false;
     //       });
     //     }
-    //     else {
+    //     else
     //       this.snackBarService.warningMessage("Double check the provided data")
-    //     }
     //   })
 
     //   const client: Client = new Client(this.clientForm.value.name, this.clientForm.value.email, this.clientForm.value.birth, this.clientForm.value.country, this.clientForm.value.city, this.clientForm.value.mother)
@@ -143,5 +140,9 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
     //       })
 
     //   }
+  }
+
+  private registerClients(): boolean {
+    return true;
   }
 }

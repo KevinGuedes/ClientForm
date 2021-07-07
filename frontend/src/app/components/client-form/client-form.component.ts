@@ -127,8 +127,7 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
 
       await this.clientService.insert(client)
         .then(data => {
-          clientsRegistered++;
-          this.calculateSpinnerPercentage(clientsRegistered, clients.length)
+          this.calculateSpinnerPercentage(++clientsRegistered, clients.length)
           registerSucceeded = true;
         })
         .catch(error => {

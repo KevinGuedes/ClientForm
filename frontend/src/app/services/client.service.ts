@@ -25,7 +25,15 @@ export class ClientService {
     );
   }
 
+  // insertMany(clients: Client[]): Observable<Client> {
+  //   return this.http.post<Client[]>(this.apiUrl, clients).pipe(
+  //     map(c => c),
+  //     catchError(error => this.errorHandler(error))
+  //   );
+  // }
+
   errorHandler(error: any): Observable<any> {
+    console.error(error.message)
     this.snackBarService.errorMessage("Back-end went rogue, sorry!")
     return EMPTY
   }

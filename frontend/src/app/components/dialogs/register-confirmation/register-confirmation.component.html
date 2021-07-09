@@ -12,7 +12,7 @@
             <p>Country: <strong>{{ client.country }}</strong></p>
             <p>City: <strong>{{ client.city }}</strong></p>
             <p>Birth Date: <strong>{{ client.birth | date: 'dd/MM/yyyy' }}</strong></p>
-            <p>Role: <strong>{{ client.birth | date: 'dd/MM/yyyy' }}</strong></p>
+            <p>Role: <strong>{{ getClientTypeName(client.type) }}</strong></p>
         </section>
         <mat-divider></mat-divider>
     </section>

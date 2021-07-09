@@ -1,3 +1,4 @@
+import { Account } from "./account.model";
 import { ClientType } from "./Enums/client-type.enum";
 
 export class Client {
@@ -9,8 +10,9 @@ export class Client {
     city: string;
     mother: string;
     type: ClientType;
+    account: Account;
 
-    constructor(data: any) {
+    constructor(data: any, account: Account) {
         this.name = data.name;
         this.email = data.email;
         this.birth = data.birth;
@@ -18,5 +20,6 @@ export class Client {
         this.city = data.city;
         this.mother = data.mother;
         this.type = data.type;
+        this.account = account;
     }
 }

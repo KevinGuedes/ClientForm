@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Account } from 'src/app/models/account.model';
 import { Client } from 'src/app/models/client.model';
 import { ClientType } from 'src/app/models/Enums/client-type.enum';
 
@@ -11,13 +12,21 @@ export class HomeComponent implements OnInit {
 
   public showClientForm: boolean = false;
   public showWelcomeMessage: boolean = false;
-  public ownerName: string;
+  public owner: Client;
+  public account: Account;
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  public get ownerName() {
+    return this.owner.name;
+  }
+
+  public get accountId() {
+    return this.account.id;
+  }
 
   openClientForm(): void {
     this.showClientForm = true;
@@ -28,7 +37,8 @@ export class HomeComponent implements OnInit {
   }
 
   welcomeMessage(event: any): void {
-    this.ownerName = event.ownerName;
+    this.owner = event.owner;
+    this.account = event.account;
     this.showWelcomeMessage = true;
     this.showClientForm = false;
   }

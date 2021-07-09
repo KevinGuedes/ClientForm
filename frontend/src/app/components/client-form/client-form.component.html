@@ -94,7 +94,7 @@
             
         </ng-container>
         
-    <section *ngIf="clients.invalid || hasMultipleOwnersError" class="messages-container">
+    <section *ngIf="clients.invalid || hasMultipleOwnersError || hasNoOwnerError" class="messages-container">
         <p *ngIf="showErrorMessage" class="error-message">
             Please verify the data you provided.
         </p>
@@ -103,7 +103,11 @@
             Only one member can be the Account Owner.
         </p>
 
-        <p *ngIf="clients.invalid && !showErrorMessage && !hasMultipleOwnersError" class="provide-data-message ">
+        <p *ngIf="hasNoOwnerError" class="error-message">
+            One member must be the Account Owner.
+        </p>
+
+        <p *ngIf="clients.invalid && !showErrorMessage && !hasMultipleOwnersError && !hasNoOwnerError" class="provide-data-message ">
             Provide the required data to allow submission.
         </p>
     </section>
@@ -111,9 +115,9 @@
     <mat-card-footer class="card-footer">
         <button mat-raised-button matButton color="secondary" (click)="closeForm()">Cancel</button>
         <button mat-raised-button matButton color="secondary" (click)="addClient()">Add Client</button>
-        <button mat-raised-button matButton color="primary" (click)="saveClient()" [disabled]="clients.invalid">Submit</button>
+        <button mat-raised-button matButton color="primary" (click)="saveClient()" [disabled]="clients.invalid || hasNoOwnerError">Submit</button>
 
-        <!-- <button (click)="multipleOwnersError()">show</button> -->
+        <!-- <button (click)="hasNoOwnerError()">show</button> -->
     </mat-card-footer>
 
     </ng-container>

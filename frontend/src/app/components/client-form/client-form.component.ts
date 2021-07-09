@@ -47,6 +47,15 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
     return this.clients.value.map((client: any) => client.type).filter((value: ClientType) => value == ClientType.Owner).length > 1;
   }
 
+  get hasNoOwnerError(): boolean {
+    const controls: AbstractControl[] = this.clients.controls.map(element => element['controls'])
+    const key: string = "type";
+    const roleFieldsValid = controls.map(element => element[key].valid).every(value => value == true);
+    const hasNoOwner = controls.map(element => element[key].value != ClientType.Owner).every(value => value == true);
+
+    return roleFieldsValid && hasNoOwner;
+  }
+
   get clients() {
     return this.clientsForm.controls["clients"] as FormArray;
   }
@@ -122,12 +131,6 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
 
   saveClient(): void {
     this.clients.markAllAsTouched();
-
-    if (this.clients.value.map((client: any) => client.type).every((value: ClientType) => value == ClientType.Holder)) {
-      this.snackBarService.warningMessage("Only one member can be the Account Owner")
-      return;
-    }
-
     const clients: Client[] = this.clients.value.map((client: any) => new Client(client));
 
     this.dialog

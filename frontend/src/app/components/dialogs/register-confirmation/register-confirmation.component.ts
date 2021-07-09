@@ -10,8 +10,6 @@ import { ClientType } from 'src/app/models/Enums/client-type.enum';
 })
 export class RegisterConfirmationComponent implements OnInit {
 
-  public readonly clientTypes: ClientType;
-
   constructor(
     public dialogRef: MatDialogRef<RegisterConfirmationComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {

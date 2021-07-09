@@ -38,6 +38,10 @@ button {
     font-size: 1rem;
 }
 
+.account-id {
+    color: black;
+}
+
 .client-name {
     font-weight: 450;
 }

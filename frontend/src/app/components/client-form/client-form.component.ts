@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { RegisterConfirmationComponent } from 'src/app/components/dialogs/register-confirmation/register-confirmation.component';
 import { SnackBarService } from 'src/app/services/snack-bar.service';
 import { sleepForSeconds } from 'src/app/tools/sleepForSeconds';
+import { Account } from 'src/app/models/account.model';
 
 @Component({
   selector: 'app-client-form',
@@ -22,45 +23,45 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
   public spinnerPercentage: number = 0;
   public isSubmited: boolean = false;
   public disabled: boolean;
-  public clientsForm: FormGroup = this.formBuilder.group({
-    clients: this.formBuilder.array([])
+  public clientsForm: FormGroup = this._formBuilder.group({
+    clients: this._formBuilder.array([])
   })
   public clientTypes = ClientType;
 
   constructor(
-    private clientService: ClientService,
-    private snackBarService: SnackBarService,
-    private dialog: MatDialog,
-    private formBuilder: FormBuilder,
-    private cdRef: ChangeDetectorRef
+    private _clientService: ClientService,
+    private _snackBarService: SnackBarService,
+    private _dialog: MatDialog,
+    private _formBuilder: FormBuilder,
+    private _cdRef: ChangeDetectorRef
   ) { }
 
-  get roleKeys(): string[] {
-    return Object.keys(this.clientTypes).filter(k => !isNaN(Number(k)))
+  public get roleKeys(): string[] {
+    return Object.keys(this.clientTypes).filter(key => !isNaN(Number(key)))
   }
 
-  get roles(): typeof ClientType {
+  public get roles(): typeof ClientType {
     return this.clientTypes;
   }
 
-  get hasMultipleOwnersError(): boolean {
+  public get hasMultipleOwnersError(): boolean {
     return this.clients.value.map((client: any) => client.type).filter((value: ClientType) => value == ClientType.Owner).length > 1;
   }
 
-  get hasNoOwnerError(): boolean {
+  public get hasNoOwnerError(): boolean {
     const controls: AbstractControl[] = this.clients.controls.map(element => element['controls'])
     const key: string = "type";
-    const roleFieldsValid = controls.map(element => element[key].valid).every(value => value == true);
-    const hasNoOwner = controls.map(element => element[key].value != ClientType.Owner).every(value => value == true);
+    const roleFieldsValid: boolean = controls.map(element => element[key].valid).every(value => value == true);
+    const hasNoOwner: boolean = controls.map(element => element[key].value != ClientType.Owner).every(value => value == true);
 
     return roleFieldsValid && hasNoOwner;
   }
 
-  get clients() {
+  public get clients(): FormArray {
     return this.clientsForm.controls["clients"] as FormArray;
   }
 
-  get showErrorMessage() {
+  public get showErrorMessage(): boolean {
     const controls: AbstractControl[] = this.clients.controls.map(element => element['controls'])
 
     let showErrorMessage: boolean[] = controls.map(element => {
@@ -77,7 +78,7 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
     return showErrorMessage.some(value => value == true)
   }
 
-  get spinnerProgress() {
+  public get spinnerProgress(): number {
     return this.spinnerPercentage
   }
 
@@ -90,7 +91,7 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
   }
 
   ngAfterContentChecked(): void {
-    this.cdRef.detectChanges();
+    this._cdRef.detectChanges();
   }
 
   removeClient(index: number): void {
@@ -101,7 +102,7 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
   }
 
   addClient(): void {
-    const clientForm = this.formBuilder.group({
+    const clientForm = this._formBuilder.group({
       name: new FormControl(null, [
         Validators.minLength(3),
       ]),
@@ -129,30 +130,31 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
     this.clients.push(clientForm);
   }
 
-  saveClient(): void {
+  createNewAccount(): void {
     this.clients.markAllAsTouched();
-    const clients: Client[] = this.clients.value.map((client: any) => new Client(client));
+    const newAccount: Account = new Account();
+    const clients: Client[] = this.clients.value.map((client: any) => new Client(client, newAccount));
 
-    this.dialog
+    this._dialog
       .open(RegisterConfirmationComponent, { panelClass: "dialog-confirmation", data: { clients }, autoFocus: false })
       .afterClosed().subscribe(dataConfirmed => {
         if (dataConfirmed) {
           this.isSubmited = true;
-          this.registerClients(clients);
+          this.registerClients(clients, newAccount);
         }
         else
-          this.snackBarService.warningMessage("Double check the provided data")
+          this._snackBarService.warningMessage("Double check the provided data")
       })
   }
 
-  private async registerClients(clients: Client[]): Promise<void> {
+  private async registerClients(clients: Client[], account: Account): Promise<void> {
     let clientsRegistered: number = 0;
     let registerSucceeded: boolean = false;
 
     for (let client of clients) {
       await sleepForSeconds();
 
-      await this.clientService.insert(client)
+      await this._clientService.insert(client)
         .then(data => {
           this.calculateSpinnerPercentage(++clientsRegistered, clients.length)
           registerSucceeded = true;
@@ -166,11 +168,12 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
 
     if (registerSucceeded) {
       await sleepForSeconds();
-      this.snackBarService.successMessage("Client successfully registered")
+      this._snackBarService.successMessage("Client successfully registered")
       this.registerSucceeded.emit(
         {
-          ownerName: clients.filter((client: any) => client.type == ClientType.Owner).shift().name,
-          success: true
+          owner: this._clientService.getAccountOwner(clients),
+          success: true,
+          account: account
         }
       );
     }

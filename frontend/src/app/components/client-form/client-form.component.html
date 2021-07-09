@@ -115,7 +115,7 @@
     <mat-card-footer class="card-footer">
         <button mat-raised-button matButton color="secondary" (click)="closeForm()">Cancel</button>
         <button mat-raised-button matButton color="secondary" (click)="addClient()">Add Client</button>
-        <button mat-raised-button matButton color="primary" (click)="saveClient()" [disabled]="clients.invalid || hasNoOwnerError">Submit</button>
+        <button mat-raised-button matButton color="primary" (click)="createNewAccount()" [disabled]="clients.invalid || hasNoOwnerError">Submit</button>
 
         <!-- <button (click)="hasNoOwnerError()">show</button> -->
     </mat-card-footer>

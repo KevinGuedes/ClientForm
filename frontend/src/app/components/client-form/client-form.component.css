@@ -103,6 +103,10 @@ button {
     margin: 0;
 }
 
+.error-message+.error-message {
+    margin-top: 1.6rem;
+}
+
 .provide-data-message {
     color: #aeadae;
     margin: 0;

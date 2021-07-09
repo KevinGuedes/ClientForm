@@ -17,6 +17,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
 
 import { MatSnackBarModule } from '@angular/material/snack-bar'
 import { AppRoutingModule } from './app-routing.module';
@@ -54,6 +55,7 @@ import { SnackBarComponent } from './components/snack-bar/snack-bar.component';
     MatDialogModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
+    MatSelectModule,
   ],
   providers: [],
   entryComponents: [

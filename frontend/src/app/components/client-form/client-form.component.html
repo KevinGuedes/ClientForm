@@ -7,11 +7,7 @@
             
             <section class="form-container">
                 <form class="client-form" [formGroupName]="i">
-                    <h2 *ngIf="i == 0; else secondaryClient" class="client-title">Account Owner</h2>
-
-                    <ng-template #secondaryClient>
-                        <h2 class="client-title">Account Holder #{{ i }}</h2>
-                    </ng-template>
+                    <h2 class="client-title">Account Member #{{ i }}</h2>
                 
                     <mat-form-field appearance="fill">
                         <mat-label>Name</mat-label>
@@ -53,7 +49,7 @@
                     
                     <mat-form-field appearance="fill">
                         <mat-label>City</mat-label>
-                        <input matInput placeholder="City" formControlName="city" name="city" required autocomplete="false">
+                        <input matInput placeholder="City" formControlName="city" name="city" required>
                         <mat-error *ngIf="clientForm['controls']?.city.hasError('required') && clientForm['controls']?.city.touched">
                             Enter your home city
                         </mat-error>
@@ -61,7 +57,7 @@
                     
                     <mat-form-field appearance="fill" class="date-input">
                         <mat-label>Birth Date</mat-label>
-                        <input matInput [matDatepicker]="datepicker" formControlName="birth" name="birth" required autocomplete="false">
+                        <input matInput [matDatepicker]="datepicker" formControlName="birth" name="birth" required>
                         <mat-error *ngIf="clientForm['controls']?.birth.hasError('required') && clientForm['controls']?.birth.touched">
                             Enter your birth date
                         </mat-error>
@@ -76,7 +72,17 @@
                             </mat-datepicker-actions>
                         </mat-datepicker>
                     </mat-form-field>
-                
+
+                    <mat-form-field appearance="fill">
+                        <mat-label>Client Role</mat-label>
+                        <mat-select formControlName="type" name="type" required>
+                            <mat-option *ngFor="let roleKey of roleKeys" [value]="roleKey">{{ roles[roleKey] }}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="clientForm['controls']?.type.hasError('required')">
+                            Select a role
+                        </mat-error>
+                    </mat-form-field>
+                    
                 </form>
                 
                 <mat-card-actions class="remove-button">
@@ -88,13 +94,17 @@
             
         </ng-container>
         
-    <section *ngIf="clients.invalid" class="messages-container">
+    <section *ngIf="clients.invalid || hasMultipleOwnersError" class="messages-container">
         <p *ngIf="showErrorMessage" class="error-message">
             Please verify the data you provided.
         </p>
 
-        <p *ngIf="clients.invalid && !showErrorMessage" class="provide-data-message">
-            Provide the required data to allow submission
+        <p *ngIf="hasMultipleOwnersError" class="error-message">
+            Only one member can be the Account Owner.
+        </p>
+
+        <p *ngIf="clients.invalid && !showErrorMessage && !hasMultipleOwnersError" class="provide-data-message ">
+            Provide the required data to allow submission.
         </p>
     </section>
 
@@ -102,7 +112,8 @@
         <button mat-raised-button matButton color="secondary" (click)="closeForm()">Cancel</button>
         <button mat-raised-button matButton color="secondary" (click)="addClient()">Add Client</button>
         <button mat-raised-button matButton color="primary" (click)="saveClient()" [disabled]="clients.invalid">Submit</button>
-        <!-- <button (click)="showErrorMessage()">show</button> -->
+
+        <!-- <button (click)="multipleOwnersError()">show</button> -->
     </mat-card-footer>
 
     </ng-container>

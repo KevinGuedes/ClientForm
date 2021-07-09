@@ -3,11 +3,7 @@
     
     <mat-divider></mat-divider>
     <section *ngFor="let client of data.clients; let i = index;">
-        <h2 *ngIf="i == 0; else secondaryClient" class="client-title">Account Owner</h2>
-        
-        <ng-template #secondaryClient>
-            <h2 class="client-title">Account Holder #{{ i }}</h2>
-        </ng-template>
+        <h2 class="client-title">Account Member #{{ i }}</h2>
 
         <section mat-dialog-content class="client-data">
             <p>Name: <strong>{{ client.name }}</strong></p>
@@ -16,6 +12,7 @@
             <p>Country: <strong>{{ client.country }}</strong></p>
             <p>City: <strong>{{ client.city }}</strong></p>
             <p>Birth Date: <strong>{{ client.birth | date: 'dd/MM/yyyy' }}</strong></p>
+            <p>Role: <strong>{{ client.birth | date: 'dd/MM/yyyy' }}</strong></p>
         </section>
         <mat-divider></mat-divider>
     </section>

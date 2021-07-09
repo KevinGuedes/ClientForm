@@ -1,5 +1,6 @@
+import { ClientType } from 'src/app/models/Enums/client-type.enum';
 import { Component, OnInit, AfterContentChecked, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
-import { FormControl, Validators, FormBuilder, FormArray, AbstractControl } from '@angular/forms';
+import { FormControl, Validators, FormBuilder, FormArray, AbstractControl, FormGroup } from '@angular/forms';
 import { Client } from 'src/app/models/client.model';
 import { ClientService } from 'src/app/services/client.service';
 import { AgeValidator } from 'src/app/tools/validators/ageValidator';
@@ -21,9 +22,10 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
   public spinnerPercentage: number = 0;
   public isSubmited: boolean = false;
   public disabled: boolean;
-  public clientsForm = this.formBuilder.group({
+  public clientsForm: FormGroup = this.formBuilder.group({
     clients: this.formBuilder.array([])
   })
+  public clientTypes = ClientType;
 
   constructor(
     private clientService: ClientService,
@@ -32,6 +34,18 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
     private formBuilder: FormBuilder,
     private cdRef: ChangeDetectorRef
   ) { }
+
+  get roleKeys(): string[] {
+    return Object.keys(this.clientTypes).filter(k => !isNaN(Number(k)))
+  }
+
+  get roles(): typeof ClientType {
+    return this.clientTypes;
+  }
+
+  get hasMultipleOwnersError(): boolean {
+    return this.clients.value.map((client: any) => client.type).filter((value: ClientType) => value == ClientType.Owner).length > 1;
+  }
 
   get clients() {
     return this.clientsForm.controls["clients"] as FormArray;
@@ -80,13 +94,13 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
   addClient(): void {
     const clientForm = this.formBuilder.group({
       name: new FormControl(null, [
-        Validators.minLength(3)
+        Validators.minLength(3),
       ]),
       mother: new FormControl(null, [
         Validators.required,
       ]),
       email: new FormControl(null, [
-        Validators.email
+        Validators.email,
       ]),
       country: new FormControl(null, [
         Validators.required,
@@ -98,12 +112,22 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
         Validators.required,
         AgeValidator
       ]),
+      type: new FormControl(null, [
+        Validators.required,
+      ])
     })
+
     this.clients.push(clientForm);
   }
 
   saveClient(): void {
     this.clients.markAllAsTouched();
+
+    if (this.clients.value.map((client: any) => client.type).every((value: ClientType) => value == ClientType.Holder)) {
+      this.snackBarService.warningMessage("Only one member can be the Account Owner")
+      return;
+    }
+
     const clients: Client[] = this.clients.value.map((client: any) => new Client(client));
 
     this.dialog
@@ -140,7 +164,12 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
     if (registerSucceeded) {
       await sleepForSeconds();
       this.snackBarService.successMessage("Client successfully registered")
-      this.registerSucceeded.emit({ client: clients, success: true });
+      this.registerSucceeded.emit(
+        {
+          ownerName: clients.filter((client: any) => client.type == ClientType.Owner).shift().name,
+          success: true
+        }
+      );
     }
   }
 

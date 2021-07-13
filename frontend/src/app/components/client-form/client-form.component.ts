@@ -51,6 +51,7 @@ export class ClientFormComponent implements OnInit, AfterContentChecked {
   public get hasNoOwnerError(): boolean {
     const controls: AbstractControl[] = this.clients.controls.map(element => element['controls'])
     const key: string = "type";
+
     const roleFieldsValid: boolean = controls.map(element => element[key].valid).every(value => value == true);
     const hasNoOwner: boolean = controls.map(element => element[key].value != ClientType.Owner).every(value => value == true);
 

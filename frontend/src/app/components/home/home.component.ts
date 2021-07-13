@@ -12,8 +12,8 @@ export class HomeComponent implements OnInit {
 
   public showClientForm: boolean = false;
   public showWelcomeMessage: boolean = false;
-  public owner: Client;
-  public account: Account;
+  private owner: Client;
+  private account: Account;
 
   constructor() { }
 
